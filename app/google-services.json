@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "400882194600",
+    "project_id": "inviobitirmeprojesi",
+    "storage_bucket": "inviobitirmeprojesi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400882194600:android:c206c135541dddea3fca9d",
+        "android_client_info": {
+          "package_name": "com.tuncaksoy.inviobitirmeprojesi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "400882194600-ivdi2dn3rrk8n0du8kfoqjefrlucia6h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAreKYSTstXvQ-URM6QSeyriAw9xxYXJ4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "400882194600-ivdi2dn3rrk8n0du8kfoqjefrlucia6h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

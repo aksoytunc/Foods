@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">FOODS</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="moneyText">%1s ₺</string>
+    <string name="foodUrl">http://kasimadalan.pe.hu/yemekler/resimler/%1s</string>
+    <string name="plusText">+%1s</string>
+    <string name="addBtnText">Add to Basket</string>
+    <string name="deleteBtnText">Delete</string>
+    <string name="changeBtnText">Change Basket</string>
+    <string name="totalText">Total: %1s ₺</string>
+    <string name="basketProductsText">- %1s Product</string>
+    <string name="basketCheckText">%1s Product</string>
+    <string name="walletText"> Wallet: %1s ₺</string>
+    <string name="myBasketText">Basket</string>
+    <string name="orderNo">Order No: %1s</string>
+    <string name="orderAddress">Address: %1s</string>
+    <string name="orderProduct">Products received: %1s Product</string>
+    <string name="orderWallet">Payment method: Wallet</string>
+    <string name="orderCard">Payment method: Card</string>
+    <string name="totalCost">Total cost: %1s ₺</string>
+    <string name="userBalance">: %1s ₺</string>
+    <string name="orderTook">Your order has been taken</string>
+    <string name="orders">Orders</string>
+    <string name="favorites">Favorites</string>
+</resources>

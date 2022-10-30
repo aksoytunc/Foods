@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.tuncaksoy.inviobitirmeprojesi.data.model.User" />
+
+        <variable
+            name="listener"
+            type="com.tuncaksoy.inviobitirmeprojesi.listener.UserClickListener" />
+
+        <variable
+            name="displayData"
+            type="com.tuncaksoy.inviobitirmeprojesi.data.model.DisplayData" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clUserProfileContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.view.UserFragment">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView5">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="15dp"
+                        app:cardCornerRadius="30dp"
+                        app:cardElevation="10dp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <Button
+                                android:id="@+id/button12"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_marginBottom="20dp"
+                                android:backgroundTint="@color/orange"
+                                android:onClick="@{() -> listener.logoutClick()}"
+                                android:text="Log Out"
+                                android:textAllCaps="false"
+                                android:textColorHighlight="@color/white"
+                                app:cornerRadius="20dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintStart_toStartOf="parent" />
+
+                            <TextView
+                                android:id="@+id/textView35"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:text="@{user.userEmail.toString()}"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toTopOf="@+id/imageViewUser"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                tools:text="aksoytunc@hotmail.com" />
+
+                            <ImageView
+                                android:id="@+id/imageViewUser"
+                                android:layout_width="140dp"
+                                android:layout_height="140dp"
+                                android:layout_marginBottom="1dp"
+                                android:downloadImage="@{user.ppUrl}"
+                                android:onClick="@{() -> listener.profileImageClick()}"
+                                app:layout_constraintBottom_toTopOf="@+id/button10"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:srcCompat="@drawable/user_image" />
+
+                            <TextView
+                                android:id="@+id/textBalance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="20dp"
+                                android:layout_marginBottom="5dp"
+                                android:text="@{@string/userBalance(user.userBalance.toString())}"
+                                android:textSize="24sp"
+                                app:layout_constraintBottom_toTopOf="@+id/editTextLoadBalance"
+                                app:layout_constraintEnd_toEndOf="@+id/imageViewUser"
+                                tools:text=": 200 ₺" />
+
+                            <ImageView
+                                android:id="@+id/imageView21"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_marginEnd="1dp"
+                                android:src="@drawable/wallet"
+                                app:layout_constraintBottom_toBottomOf="@+id/textBalance"
+                                app:layout_constraintEnd_toStartOf="@+id/textBalance"
+                                app:layout_constraintTop_toTopOf="@+id/textBalance" />
+
+                            <EditText
+                                android:id="@+id/editTextLoadBalance"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_marginBottom="10dp"
+                                android:ems="10"
+                                android:hint="Enter Amount"
+                                android:inputType="number|textPersonName"
+                                android:textAlignment="center"
+                                app:layout_constraintBottom_toTopOf="@+id/button9"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" />
+
+                            <Button
+                                android:id="@+id/button9"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:layout_marginBottom="30dp"
+                                android:backgroundTint="@color/positiveBtn"
+                                android:onClick="@{() -> listener.loadBalanceClick(user.userBalance.toString(),editTextLoadBalance.getText().toString())}"
+                                android:text="Load Balance"
+                                android:textAllCaps="false"
+                                android:textColorHighlight="@color/white"
+                                app:cornerRadius="20dp"
+                                app:layout_constraintBottom_toTopOf="@+id/button12"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" />
+
+                            <Button
+                                android:id="@+id/button10"
+                                android:layout_width="0dp"
+                                android:layout_height="35dp"
+                                android:layout_marginStart="100dp"
+                                android:layout_marginEnd="100dp"
+                                android:layout_marginBottom="15dp"
+                                android:onClick="@{() -> listener.loadProfileImageClick()}"
+                                android:text="Load Image"
+                                android:textAllCaps="false"
+                                android:textSize="10sp"
+                                app:cornerRadius="10dp"
+                                app:layout_constraintBottom_toTopOf="@+id/imageView21"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" />
+
+                            <Switch
+                                android:id="@+id/languageMode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginTop="10dp"
+                                android:checked="@{displayData.languageMode ? true : false}"
+                                android:layout_marginBottom="10dp"
+                                android:text="TR / ENG"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toTopOf="@+id/textView35"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <Switch
+                                android:id="@+id/displayMode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:switchTextAppearance="@style/TextAppearance.AppCompat.Display1"
+                                android:text="WHİTE / DARK"
+                                android:textSize="12sp"
+                                app:layout_constraintBottom_toTopOf="@+id/textView35"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+                </ScrollView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView5"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:cardElevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView33"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:text="User"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.5" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/imageLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="52dp"
+            android:background="@color/fragmentBlack"
+            android:onClick="@{() -> listener.layoutClick()}"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageViewLarge"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:downloadImage="@{user.ppUrl}"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="70dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/user_image" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

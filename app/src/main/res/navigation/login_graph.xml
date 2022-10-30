@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_graph"
+    app:startDestination="@id/homePageFragment">
+
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.tuncaksoy.inviobitirmeprojesi.ui.view.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/action_favoritesFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.tuncaksoy.inviobitirmeprojesi.ui.view.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/shoppingFragment"
+        android:name="com.tuncaksoy.inviobitirmeprojesi.ui.view.ShoppingFragment"
+        android:label="fragment_shopping"
+        tools:layout="@layout/fragment_shopping" >
+        <action
+            android:id="@+id/action_shoppingFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_shoppingFragment_to_acceptedOrderFragment"
+            app:destination="@id/acceptedOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homePageFragment"
+        android:name="com.tuncaksoy.inviobitirmeprojesi.ui.view.HomePageFragment"
+        android:label="HomePageFragment"
+        tools:layout="@layout/fragment_home_page">
+        <action
+            android:id="@+id/action_homePageFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.tuncaksoy.inviobitirmeprojesi.ui.view.DetailsFragment"
+        android:label="DetailsFragment" >
+        <argument
+            android:name="product"
+            app:argType="com.tuncaksoy.inviobitirmeprojesi.data.model.Food" />
+    </fragment>
+    <fragment
+        android:id="@+id/acceptedOrderFragment"
+        android:name="com.tuncaksoy.inviobitirmeprojesi.ui.view.AcceptedOrderFragment"
+        android:label="AcceptedOrderFragment" >
+        <argument
+            android:name="order"
+            app:argType="com.tuncaksoy.inviobitirmeprojesi.data.model.Order" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderHistoryFragment"
+        android:name="com.tuncaksoy.inviobitirmeprojesi.ui.view.OrderHistoryFragment"
+        android:label="OrderHistoryFragment" />
+</navigation>
