@@ -5,24 +5,21 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
-import com.tuncaksoy.inviobitirmeprojesi.data.Preferences.AppPref
+import com.tuncaksoy.inviobitirmeprojesi.data.Preferences.AppSharedPreferences
 import com.tuncaksoy.inviobitirmeprojesi.data.model.*
 import com.tuncaksoy.inviobitirmeprojesi.retrofit.FoodRetrofitDao
 import com.tuncaksoy.inviobitirmeprojesi.room.FoodRoomDao
+import com.tuncaksoy.inviobitirmeprojesi.ui.view.LogoutActivity
 import com.tuncaksoy.inviobitirmeprojesi.utils.makeToast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-
 
 class FoodDataSource(
     var foodRetrofitDao: FoodRetrofitDao,
     var foodRoomDao: FoodRoomDao,
     var firebaseAuth: FirebaseAuth,
     var collectionReference: CollectionReference,
-    var appPref: AppPref
+    var appSharedPref: AppSharedPreferences,
 ) {
     var allFoodList = listOf<Food>()
     var basketFoodList = listOf<Food>()
@@ -32,30 +29,29 @@ class FoodDataSource(
     var lastBasketList = listOf<Food>()
     var userLiveData = MutableLiveData<User>()
     var userAnswer = MutableLiveData<Answer>()
-    var userId = ""
-    var userEmail: String = "null"
+    var userId: String? = firebaseAuth.currentUser?.uid
+    var userEmail: String? = firebaseAuth.currentUser?.email
 
-    fun takeUserEmail() {
-        userEmail = firebaseAuth.currentUser?.email.toString()
-    }
 
     suspend fun getAllFood(): List<Food> {
-        takeUserEmail()
-        getUserIdPref()
-        Log.e("userName", userEmail.toString())
-        allFoodList = foodRetrofitDao.getAllFood().yemekler
-        for (food in allFoodList) {
-            food.kullanici_adi = userEmail
+        userEmail = firebaseAuth.currentUser?.email
+        userEmail?.let {
+            allFoodList = foodRetrofitDao.getAllFood().yemekler
+            for (food in allFoodList) {
+                food.kullanici_adi = userEmail
+            }
         }
         return allFoodList
     }
 
     suspend fun getBasket(): List<Food> {
-        takeUserEmail()
-        basketFoodList = try {
-            foodRetrofitDao.getBasket(userEmail).sepet_yemekler
-        } catch (e: java.io.EOFException) {
-            emptyList()
+        userEmail = firebaseAuth.currentUser?.email
+        userEmail?.let {
+            basketFoodList = try {
+                foodRetrofitDao.getBasket(userEmail).sepet_yemekler
+            } catch (e: java.io.EOFException) {
+                emptyList()
+            }
         }
         return basketFoodList
     }
@@ -161,11 +157,11 @@ class FoodDataSource(
     }
 
     fun sort(foodList: List<Food>, position: Int?): List<Food> {
-        when (position) {
-            1 -> filterFoodList = foodList.sortedBy { it.yemek_adi }.reversed()
-            2 -> filterFoodList = foodList.sortedBy { it.yemek_fiyat?.toDouble() }
-            3 -> filterFoodList = foodList.sortedBy { it.yemek_fiyat?.toDouble() }.reversed()
-            else -> filterFoodList = foodList.sortedBy { it.yemek_adi }
+        filterFoodList = when (position) {
+            1 -> foodList.sortedBy { it.yemek_adi }.reversed()
+            2 -> foodList.sortedBy { it.yemek_fiyat?.toDouble() }
+            3 -> foodList.sortedBy { it.yemek_fiyat?.toDouble() }.reversed()
+            else -> foodList.sortedBy { it.yemek_adi }
         }
         return filterFoodList
     }
@@ -176,7 +172,6 @@ class FoodDataSource(
         foodPrice: Int?,
         foodNumber: Int?
     ): Answer {
-        takeUserEmail()
         return foodRetrofitDao.addToBasket(
             foodName,
             foodImage,
@@ -186,11 +181,9 @@ class FoodDataSource(
         )
     }
 
+    suspend fun deleteToBasket(foodBasketId: Int?): Answer =
+        foodRetrofitDao.deleteToBasket(foodBasketId, userEmail)
 
-    suspend fun deleteToBasket(foodBasketId: Int?): Answer {
-        takeUserEmail()
-        return foodRetrofitDao.deleteToBasket(foodBasketId, userEmail)
-    }
 
     suspend fun newProduct(product: Food): Food {
         basketFoodList = getBasket()
@@ -204,7 +197,6 @@ class FoodDataSource(
     }
 
     suspend fun getFavoritesFood(): List<Food> {
-        takeUserEmail()
         return foodRoomDao.getFavoritesFood(userEmail)
     }
 
@@ -220,7 +212,6 @@ class FoodDataSource(
     }
 
     suspend fun getOrder(): List<Order> {
-        takeUserEmail()
         return foodRoomDao.getOrder(userEmail)
     }
 
@@ -230,71 +221,37 @@ class FoodDataSource(
         return Answer(1, "true")
     }
 
-    fun register(context: Context, email: String, password: String) {
+    fun register(activity: LogoutActivity, context: Context, email: String, password: String) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    firebaseAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                loadUserFirebase(email)
-                            } else makeToast(context, "Bilinmeyen bir hata oluştu !")
-                        }
-                }
-            }.addOnFailureListener {
-                makeToast(context, it.message.toString())
-            }
-    }
-
-    fun loadUserFirebase(email: String?) {
-        val newUser = User("", email, 0, "")
-        collectionReference.add(newUser).addOnCompleteListener {
-            it.addOnSuccessListener {
-                val userId = HashMap<String, Any>()
-                userId["userId"] = it.id
-                collectionReference.document(it.id).update(userId)
-                val answer = Answer(1, "Başarı ile Kayıt Olundu Giriş Yapılıyor")
-                userAnswer.value = answer
-            }
-        }.addOnFailureListener {
-            val answer = Answer(0, it.message)
-            userAnswer.value = answer
-            firebaseAuth.currentUser?.delete()
-        }
-    }
-
-    fun getUserId() {
-        takeUserEmail()
-        collectionReference.get().addOnSuccessListener {
-            for (user in it) {
-                val hasmapp: HashMap<String, Any> = user.data as HashMap<String, Any>
-                if (hasmapp.get("userEmail") == userEmail) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        userId = hasmapp.get("userId").toString()
-                        appPref.loadUserPreferences(userId, userEmail)
+                    val firebaseUser: FirebaseUser = task.result!!.user!!
+                    val uid = firebaseUser.uid
+                    val user = User(uid, email, 0, "none")
+                    collectionReference.document(uid).set(user).addOnSuccessListener {
+                        makeToast(context, "Başarı ile Kayıt olundu")
+                        activity.login()
                     }
                 }
+            }.addOnFailureListener {
+                makeToast(context, it.toString())
             }
-        }
     }
-
-    suspend fun getUserIdPref() {
-        userId = appPref.getUserPreferences().userId.toString()
-    }
-
-    suspend fun deleteUserIdPref() = appPref.deleteUserPreferences()
 
     fun getLiveUser(): MutableLiveData<User> {
-        collectionReference.document(userId).addSnapshotListener { value, error ->
-            if (value != null) {
-                val hasmapp: HashMap<String, Any?> = value.data as HashMap<String, Any?>
-                val liveUser = User(
-                    hasmapp.get("userId").toString(),
-                    hasmapp.get("userEmail").toString(),
-                    hasmapp.get("userBalance").toString().toInt(),
-                    hasmapp.get("ppUrl").toString()
-                )
-                userLiveData.value = liveUser
+        userId = firebaseAuth.currentUser?.uid
+        userId?.let {
+            collectionReference.document(it).addSnapshotListener { value, _ ->
+                if (value != null) {
+                    val hasmapp: HashMap<String, Any?> = value.data as HashMap<String, Any?>
+                    val liveUser = User(
+                        hasmapp["userId"].toString(),
+                        hasmapp["userEmail"].toString(),
+                        hasmapp["userBalance"].toString().toInt(),
+                        hasmapp["ppUrl"].toString()
+                    )
+                    userLiveData.value = liveUser
+                }
             }
         }
         return userLiveData
@@ -303,17 +260,25 @@ class FoodDataSource(
     fun updateBalance(lastBalance: Int) {
         val wallet = HashMap<String, Any>()
         wallet["userBalance"] = lastBalance
-        collectionReference.document(userId).update(wallet)
+        userId?.let {
+            collectionReference.document(it).update(wallet)
+        }
     }
 
     fun updateImage(imageUrl: String) {
         val image = HashMap<String, Any>()
         image["ppUrl"] = imageUrl
-        collectionReference.document(userId).update(image)
+        userId?.let {
+            collectionReference.document(it).update(image)
+        }
     }
 
-    suspend fun loadModePreferences(languageMode: Boolean, displayMode: Boolean) =
-        appPref.loadModePreferences(languageMode, displayMode)
+    fun loadModePreferences(languageMode: Boolean, displayMode: Boolean) =
+        appSharedPref.loadModePreferences(languageMode, displayMode)
 
-    suspend fun getModePrefences() = appPref.getModePrefences()
+    fun getModePreferences() = appSharedPref.getModePrefences()
 }
+
+
+
+

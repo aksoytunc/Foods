@@ -24,7 +24,6 @@ import javax.inject.Inject
 class RegisterFragment : Fragment(), RegisterClickListener {
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var viewModel: RegisterViewModel
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,27 +41,13 @@ class RegisterFragment : Fragment(), RegisterClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.listener = this
-        auth = FirebaseAuth.getInstance()
-        obseveLiveData()
-    }
-
-    fun obseveLiveData() {
-        viewModel.foodDataSource.userAnswer.observe(viewLifecycleOwner) {
-            if (it.success == 1) {
-                (activity as LogoutActivity).login()
-                it.message?.let { message -> makeToast(requireContext(), message) }
-            } else {
-                it.message?.let { message -> makeToast(requireContext(), message) }
-                binding.progressBar.visibility = View.GONE
-            }
-        }
     }
 
     override fun btnRegisterClick(view: View, email: String?, password: String?) {
-        email?.let { email ->
+        email?.let {
             password?.let { password ->
-                if (email != "" && password != "") {
-                    viewModel.register(requireContext(), email, password)
+                if (it != "" && password != "") {
+                    viewModel.register((activity as LogoutActivity), requireContext(), it, password)
                     binding.progressBar.visibility = View.VISIBLE
                 }
             }

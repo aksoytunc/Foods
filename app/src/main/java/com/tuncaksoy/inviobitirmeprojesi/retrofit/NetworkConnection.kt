@@ -22,29 +22,13 @@ class NetworkConnection(val context: Context) : MutableLiveData<Boolean>() {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
                 connectionManger.registerDefaultNetworkCallback(NetworkConnectioncallback())
             }
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
-                lollipopNetworkRequest()
-            }
             else -> {
-                context.registerReceiver(
-                    networkReciever(),
-                    IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-                )
+                lollipopNetworkRequest()
             }
         }
     }
 
-   /* override fun onInactive() {
-        super.onInactive()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            connectionManger.unregisterNetworkCallback(NetworkConnectioncallback())
-        } else {
-            context.unregisterReceiver(networkReciever())
-        }
-    }*/
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    fun lollipopNetworkRequest() {
+    private fun lollipopNetworkRequest() {
         val requestBuilder = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
@@ -55,32 +39,22 @@ class NetworkConnection(val context: Context) : MutableLiveData<Boolean>() {
         )
     }
 
-    fun NetworkConnectioncallback(): ConnectivityManager.NetworkCallback {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            netwrokCallback = object : ConnectivityManager.NetworkCallback() {
-                override fun onLost(network: Network) {
-                    super.onLost(network)
-                    postValue(false)
-                }
-
-                override fun onAvailable(network: Network) {
-                    super.onAvailable(network)
-                    postValue(true)
-                }
+    private fun NetworkConnectioncallback(): ConnectivityManager.NetworkCallback {
+        netwrokCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                postValue(false)
             }
-            return netwrokCallback
-        } else {
-            throw IllegalAccessError("Error!")
+
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                postValue(true)
+            }
         }
+        return netwrokCallback
     }
 
-    fun networkReciever() = object : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
-            updateConnection()
-        }
-    }
-
-    fun updateConnection() {
+    private fun updateConnection() {
         val activeNetwork: NetworkInfo? = connectionManger.activeNetworkInfo
         postValue((activeNetwork?.isConnected == true))
     }

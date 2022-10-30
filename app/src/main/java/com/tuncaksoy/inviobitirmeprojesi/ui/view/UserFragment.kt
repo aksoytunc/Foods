@@ -33,7 +33,6 @@ class UserFragment : Fragment(), UserClickListener {
     private lateinit var viewModel: UserViewModel
     private lateinit var storage: FirebaseStorage
     private lateinit var fireBase: FirebaseFirestore
-    val userHashmap = hashMapOf<String, Any>()
     var selectedImage: Uri? = null
     var selectedBitmap: Bitmap? = null
 
@@ -58,6 +57,7 @@ class UserFragment : Fragment(), UserClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.listener = this
+        binding.displayData = viewModel.getModePrefences()
         observeLiveData()
         modeListener()
     }
@@ -66,31 +66,27 @@ class UserFragment : Fragment(), UserClickListener {
         viewModel.userLive.observe(viewLifecycleOwner) {
             binding.user = it
         }
-        viewModel.displayData.observe(viewLifecycleOwner){
-           binding.displayData = it
-        }
     }
 
-    fun modeListener(){
-        binding.displayMode.setOnCheckedChangeListener { compoundButton, b ->
-            viewModel.loadModePreferences(binding.languageMode.isChecked,b)
-            if (b) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+    fun modeListener() {
+        binding.displayMode.setOnCheckedChangeListener { _, b ->
+            viewModel.loadModePreferences(binding.languageMode.isChecked, b)
+            if (b) AppCompatDelegate.setDefaultNightMode (AppCompatDelegate.MODE_NIGHT_YES)
             else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-        binding.languageMode.setOnCheckedChangeListener { compoundButton, b ->
-            viewModel.loadModePreferences(b,binding.displayMode.isChecked)
-            if (b) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        binding.languageMode.setOnCheckedChangeListener { _, b ->
+            viewModel.loadModePreferences(b, binding.displayMode.isChecked)
         }
     }
 
     fun saveImageFirebase(image: Uri) {
         val reference = storage.reference
         val imageRef =
-            reference.child("profilePhotos").child(viewModel.firebaseAuth.currentUser?.email.toString())
+            reference.child("profilePhotos")
+                .child(viewModel.firebaseAuth.currentUser?.email.toString())
 
-        imageRef.putFile(image).addOnSuccessListener { taskSnapshot ->
-            val loadImageRef = FirebaseStorage.getInstance().reference.child("profilePhotos")
+        imageRef.putFile(image).addOnSuccessListener {
+            FirebaseStorage.getInstance().reference.child("profilePhotos")
                 .child(viewModel.firebaseAuth.currentUser?.email.toString()).downloadUrl.addOnSuccessListener {
                     viewModel.updateImage(it.toString())
                 }
@@ -102,10 +98,10 @@ class UserFragment : Fragment(), UserClickListener {
     }
 
     override fun loadBalanceClick(balance: String?, loadBalance: String?) {
-        balance?.let { balance ->
-            loadBalance?.let { loadBalance ->
-                if (balance != "" && loadBalance != "") {
-                    viewModel.updateBalance(balance.toInt(), loadBalance.toInt())
+        balance?.let { nBalance ->
+            loadBalance?.let { nLoadBalance ->
+                if (nBalance != "" && nLoadBalance != "") {
+                    viewModel.updateBalance(nBalance.toInt(), nLoadBalance.toInt())
                 }
             }
         }
@@ -153,6 +149,7 @@ class UserFragment : Fragment(), UserClickListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 2 && resultCode == Activity.RESULT_OK && data != null) {
             selectedImage = data.data

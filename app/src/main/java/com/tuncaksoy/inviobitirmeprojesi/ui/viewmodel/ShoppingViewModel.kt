@@ -8,6 +8,7 @@ import com.tuncaksoy.inviobitirmeprojesi.data.model.Food
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Order
 import com.tuncaksoy.inviobitirmeprojesi.data.model.User
 import com.tuncaksoy.inviobitirmeprojesi.data.repository.FoodRepository
+import com.tuncaksoy.inviobitirmeprojesi.retrofit.NetworkConnection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +16,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ShoppingViewModel @Inject constructor(var foodRepository: FoodRepository) : ViewModel() {
+class ShoppingViewModel @Inject constructor(
+    var foodRepository: FoodRepository,
+    var networkConnection: NetworkConnection
+) : ViewModel() {
     var basketFoodList = MutableLiveData<List<Food>>()
     var liveUser = MutableLiveData<User>()
     var answer = MutableLiveData<Answer>()

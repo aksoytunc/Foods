@@ -44,16 +44,12 @@ class LoginFragment : Fragment(), LoginClickListener {
         auth = FirebaseAuth.getInstance()
     }
 
-    fun observeLiveData() {
-
-    }
-
     override fun btnLoginClick(view: View, email: String?, password: String?) {
-        email?.let { email ->
+        email?.let {
             password?.let { password ->
-                if (email != "" && password != "") {
+                if (it != "" && password != "") {
                     binding.progressBar.visibility = View.VISIBLE
-                    auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    auth.signInWithEmailAndPassword(it, password).addOnCompleteListener { task ->
                         if (task.isSuccessful) (activity as LogoutActivity).login()
                     }.addOnFailureListener {
                         makeToast(requireContext(), it.message.toString())

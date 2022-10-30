@@ -11,7 +11,7 @@ import com.tuncaksoy.inviobitirmeprojesi.data.model.Order
 interface FoodRoomDao {
     //Food
     @Query("SELECT * FROM foods_fav WHERE kullanici_adi = :userEmail")
-    suspend fun getFavoritesFood(userEmail: String): List<Food>
+    suspend fun getFavoritesFood(userEmail: String?): List<Food>
 
     @Insert
     suspend fun saveFavoritesFood(food: Food)
@@ -21,7 +21,7 @@ interface FoodRoomDao {
 
     //Order
     @Query("SELECT * FROM order_all WHERE user_email = :userEmail")
-    suspend fun getOrder(userEmail: String): List<Order>
+    suspend fun getOrder(userEmail: String?): List<Order>
 
     @Insert
     suspend fun saveOrder(order: Order)

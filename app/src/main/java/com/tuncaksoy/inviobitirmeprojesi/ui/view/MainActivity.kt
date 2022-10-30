@@ -1,14 +1,11 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.view
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
-import android.view.Display.Mode
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -34,46 +31,38 @@ class MainActivity : AppCompatActivity() {
         viewMoldel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setContentView(binding.root)
+        controlDisplayData()
+        if (rememberUser == null) {
+            logOut()
+        }
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         NavigationUI.setupWithNavController(binding.bottomNav, navHostFragment.navController)
-        viewMoldel.getModePrefences()
-        observeLiveData()
-
-        val timer = object : CountDownTimer(2000, 1000) {
+        viewMoldel.getModePreferences()
+        val timer = object : CountDownTimer(2500, 2500) {
             override fun onTick(millisUntilFinished: Long) {
-                time += 1000
             }
+
             override fun onFinish() {
-                if (time == 2000L) {
-                    binding.splashScreen.visibility = View.GONE
-                    window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.white)
-                    if (rememberUser == null) {
-                        Log.e("saybakem", "1234")
-                        logOut()
-                    }
-                }
+                binding.splashScreen.visibility = View.GONE
+                window.statusBarColor = ContextCompat.getColor(this@MainActivity, R.color.white)
             }
         }
         timer.start()
-
     }
 
-    fun observeLiveData() {
-        Log.d("displaymode", "geldikyoktunuz")
-        viewMoldel.displayData.observe(this) {
-            Log.d("displaymode", "deneme" + it.toString())
-            if (it.displayMode) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+    fun controlDisplayData() {
+        if (viewMoldel.getModePreferences().displayMode) AppCompatDelegate.setDefaultNightMode(
+            AppCompatDelegate.MODE_NIGHT_YES
+        )
+        else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
+
 
     fun logOut() {
-        Log.d("saybakem", "1234")
-        auth.signOut()
-        viewMoldel.deleteUserIdPref()
         val intent = Intent(this, LogoutActivity::class.java)
         startActivity(intent)
+        auth.signOut()
         finish()
     }
 }

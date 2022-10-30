@@ -6,9 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class LogoutActivityViewModel @Inject constructor(var foodRepository: FoodRepository) : ViewModel() {
-
-    fun getUserId() {
-        foodRepository.getUserId()
-    }
+class LogoutActivityViewModel @Inject constructor(var foodRepository: FoodRepository) :
+    ViewModel() {
 }

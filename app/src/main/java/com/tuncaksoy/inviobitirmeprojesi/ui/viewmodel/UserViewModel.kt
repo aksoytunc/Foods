@@ -7,9 +7,6 @@ import com.tuncaksoy.inviobitirmeprojesi.data.model.DisplayData
 import com.tuncaksoy.inviobitirmeprojesi.data.model.User
 import com.tuncaksoy.inviobitirmeprojesi.data.repository.FoodRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,7 +14,6 @@ class UserViewModel @Inject constructor(
     var foodRepository: FoodRepository,
     var firebaseAuth: FirebaseAuth
 ) : ViewModel() {
-    val displayData = MutableLiveData<DisplayData>()
     var userLive = MutableLiveData<User>()
 
     fun getLiveUser() {
@@ -34,14 +30,10 @@ class UserViewModel @Inject constructor(
     }
 
     fun loadModePreferences(languageMode: Boolean, displayMode: Boolean) {
-        CoroutineScope(Dispatchers.Main).launch {
-            foodRepository.loadModePreferences(languageMode, displayMode)
-        }
+        foodRepository.loadModePreferences(languageMode, displayMode)
+        getModePrefences()
     }
 
-    fun getModePrefences() {
-        CoroutineScope(Dispatchers.Main).launch {
-            displayData.value = foodRepository.getModePrefences()
-        }
-    }
+    fun getModePrefences(): DisplayData = foodRepository.getModePreferences()
+
 }

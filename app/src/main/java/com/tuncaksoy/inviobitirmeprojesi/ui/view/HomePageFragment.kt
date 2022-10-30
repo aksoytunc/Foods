@@ -37,8 +37,6 @@ class HomePageFragment : Fragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(HomePageViewModel::class.java)
-
-
     }
 
     override fun onCreateView(
@@ -55,23 +53,19 @@ class HomePageFragment : Fragment(),
         adapter = AllFoodAdapter(viewModel)
         binding.adapter = adapter
         binding.searchView.setOnQueryTextListener(this@HomePageFragment)
-
-        val networkConnection = NetworkConnection(requireContext())
-
-        networkConnection.observe(viewLifecycleOwner) { isConnected ->
-            Log.e("conntected" , isConnected.toString())
-            if (isConnected) viewModel.getAllFood()
-            else makeToast(requireContext(),"control Internet")
-        }
-
-        sortlist()
-        filterList()
-        filter()
-        sort()
         observeLiveData()
     }
 
     fun observeLiveData() {
+        viewModel.networkConnection.observe(viewLifecycleOwner) { isConnected ->
+            if (isConnected) {
+                viewModel.getAllFood()
+                sortlist()
+                filterList()
+                filter()
+                sort()
+            } else makeToast(requireContext(), "control Internet")
+        }
         viewModel.lastFoodList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             binding.progress.visibility = View.GONE

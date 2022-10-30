@@ -7,6 +7,7 @@ import com.tuncaksoy.inviobitirmeprojesi.data.model.Answer
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Food
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Order
 import com.tuncaksoy.inviobitirmeprojesi.data.model.User
+import com.tuncaksoy.inviobitirmeprojesi.ui.view.LogoutActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -53,12 +54,13 @@ class FoodRepository(var foodDataSource: FoodDataSource) {
 
     suspend fun saveOrder(order: Order): Answer = foodDataSource.saveOrder(order)
 
-    fun register(context: Context, userEmail: String, userPassword: String) =
-        foodDataSource.register(context, userEmail, userPassword)
-
-    fun getUserId() = foodDataSource.getUserId()
-
-    suspend fun deleteUserIdPref() = foodDataSource.deleteUserIdPref()
+    fun register(
+        activity: LogoutActivity,
+        context: Context,
+        userEmail: String,
+        userPassword: String
+    ) =
+        foodDataSource.register(activity, context, userEmail, userPassword)
 
     fun getLiveUser(): MutableLiveData<User> = foodDataSource.getLiveUser()
 
@@ -66,9 +68,9 @@ class FoodRepository(var foodDataSource: FoodDataSource) {
 
     fun updateImage(imageUrl: String) = foodDataSource.updateImage(imageUrl)
 
-    suspend fun loadModePreferences(languageMode: Boolean, displayMode: Boolean) =
+    fun loadModePreferences(languageMode: Boolean, displayMode: Boolean) =
         foodDataSource.loadModePreferences(languageMode, displayMode)
 
-    suspend fun getModePrefences() = foodDataSource.getModePrefences()
+    fun getModePreferences() = foodDataSource.getModePreferences()
 
 }

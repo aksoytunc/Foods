@@ -21,7 +21,6 @@ class LogoutActivity : AppCompatActivity() {
     fun login() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        viewModel.getUserId()
         finish()
     }
 }

@@ -4,9 +4,9 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 data class User(
-    var userId: String? = "",
-    var userEmail: String? = "",
-    var userBalance: Int? = 0,
-    var ppUrl: String? = ""
+    var userId: String? = null,
+    var userEmail: String? = null,
+    var userBalance: Int? = null,
+    var ppUrl: String? = null
 ) {
 }

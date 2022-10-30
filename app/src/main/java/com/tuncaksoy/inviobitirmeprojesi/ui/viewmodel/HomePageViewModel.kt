@@ -15,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomePageViewModel @Inject constructor(
-    var foodRepository: FoodRepository
+    var foodRepository: FoodRepository,
+    var networkConnection: NetworkConnection
 ) : ViewModel() {
     var lastFoodList = MutableLiveData<List<Food>>()
     var answer = MutableLiveData<Answer>()

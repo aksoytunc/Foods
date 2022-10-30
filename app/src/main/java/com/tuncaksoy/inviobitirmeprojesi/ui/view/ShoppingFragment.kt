@@ -15,6 +15,7 @@ import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentShoppingBinding
 import com.tuncaksoy.inviobitirmeprojesi.listener.ShoppingClickListener
 import com.tuncaksoy.inviobitirmeprojesi.ui.adapter.BasketAdapter
 import com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel.ShoppingViewModel
+import com.tuncaksoy.inviobitirmeprojesi.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,13 +30,12 @@ class ShoppingFragment : Fragment(), ShoppingClickListener {
     override fun onResume() {
         super.onResume()
         binding.progress.visibility = View.VISIBLE
-        viewModel.getBasket()
+        observeLiveData()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ShoppingViewModel::class.java)
-        viewModel.getBasket()
     }
 
     override fun onCreateView(
@@ -56,6 +56,12 @@ class ShoppingFragment : Fragment(), ShoppingClickListener {
     }
 
     fun observeLiveData() {
+        viewModel.networkConnection.observe(viewLifecycleOwner) { isConnected ->
+            Log.e("conntected", isConnected.toString())
+            if (isConnected) {
+                viewModel.getBasket()
+            } else makeToast(requireContext(), "control Internet")
+        }
         viewModel.basketFoodList.observe(viewLifecycleOwner) {
             basketList = it
             adapter.submitList(it)

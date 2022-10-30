@@ -91,6 +91,8 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
     //Preferences DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+    //SharedPreferences
+    implementation "androidx.preference:preference-ktx:1.2.0"
     // Lifecycle component & Kotlin coroutines components
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"

@@ -5,11 +5,12 @@ import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.tuncaksoy.inviobitirmeprojesi.data.Preferences.AppPref
+import com.tuncaksoy.inviobitirmeprojesi.data.Preferences.AppSharedPreferences
 import com.tuncaksoy.inviobitirmeprojesi.data.datasource.FoodDataSource
 import com.tuncaksoy.inviobitirmeprojesi.data.repository.FoodRepository
 import com.tuncaksoy.inviobitirmeprojesi.retrofit.ApiUtils
 import com.tuncaksoy.inviobitirmeprojesi.retrofit.FoodRetrofitDao
+import com.tuncaksoy.inviobitirmeprojesi.retrofit.NetworkConnection
 import com.tuncaksoy.inviobitirmeprojesi.room.FoodDatabase
 import com.tuncaksoy.inviobitirmeprojesi.room.FoodRoomDao
 import dagger.Module
@@ -35,9 +36,15 @@ class AppModule {
         foodRoomDao: FoodRoomDao,
         firebaseAuth: FirebaseAuth,
         collectionReference: CollectionReference,
-        appPref: AppPref
+        appSharedPref: AppSharedPreferences
     ): FoodDataSource {
-        return FoodDataSource(foodRetrofitDao, foodRoomDao, firebaseAuth, collectionReference,appPref)
+        return FoodDataSource(
+            foodRetrofitDao,
+            foodRoomDao,
+            firebaseAuth,
+            collectionReference,
+            appSharedPref
+        )
     }
 
     @Provides
@@ -66,6 +73,12 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providePreferences(@ApplicationContext context: Context): AppPref = AppPref(context)
+    fun provideSharedPreferences(@ApplicationContext context: Context): AppSharedPreferences =
+        AppSharedPreferences(context)
+
+    @Provides
+    @Singleton
+    fun provideNetworkConnection(@ApplicationContext context: Context): NetworkConnection =
+        NetworkConnection((context))
 
 }
