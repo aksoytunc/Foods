@@ -3,6 +3,7 @@ package com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
 import com.tuncaksoy.inviobitirmeprojesi.data.model.DisplayData
 import com.tuncaksoy.inviobitirmeprojesi.data.model.User
 import com.tuncaksoy.inviobitirmeprojesi.data.repository.FoodRepository
@@ -12,7 +13,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     var foodRepository: FoodRepository,
-    var firebaseAuth: FirebaseAuth
+    var firebaseAuth: FirebaseAuth,
+    var firebseStore: FirebaseStorage
 ) : ViewModel() {
     var userLive = MutableLiveData<User>()
 

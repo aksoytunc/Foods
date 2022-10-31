@@ -1,17 +1,13 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.Navigation
-import com.google.firebase.auth.FirebaseAuth
 import com.tuncaksoy.inviobitirmeprojesi.R
 import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentLoginBinding
 import com.tuncaksoy.inviobitirmeprojesi.listener.LoginClickListener
@@ -23,11 +19,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginFragment : Fragment(), LoginClickListener {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var viewModel: LoginViewModel
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -41,7 +36,6 @@ class LoginFragment : Fragment(), LoginClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.listener = this
-        auth = FirebaseAuth.getInstance()
     }
 
     override fun btnLoginClick(view: View, email: String?, password: String?) {
@@ -49,13 +43,13 @@ class LoginFragment : Fragment(), LoginClickListener {
             password?.let { password ->
                 if (it != "" && password != "") {
                     binding.progressBar.visibility = View.VISIBLE
-                    auth.signInWithEmailAndPassword(it, password).addOnCompleteListener { task ->
+                    viewModel.firebaseAuth.signInWithEmailAndPassword(it, password).addOnCompleteListener { task ->
                         if (task.isSuccessful) (activity as LogoutActivity).login()
                     }.addOnFailureListener {
                         makeToast(requireContext(), it.message.toString())
                         binding.progressBar.visibility = View.GONE
                     }
-                }
+                }else makeToast(requireContext(),"email ve şifre boş bırakılamaz")
             }
         }
     }

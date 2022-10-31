@@ -1,24 +1,18 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
 import com.tuncaksoy.inviobitirmeprojesi.R
-import com.tuncaksoy.inviobitirmeprojesi.data.datasource.FoodDataSource
-import com.tuncaksoy.inviobitirmeprojesi.data.repository.FoodRepository
 import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentRegisterBinding
 import com.tuncaksoy.inviobitirmeprojesi.listener.RegisterClickListener
 import com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel.RegisterViewModel
 import com.tuncaksoy.inviobitirmeprojesi.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment(), RegisterClickListener {
@@ -27,7 +21,7 @@ class RegisterFragment : Fragment(), RegisterClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
+        viewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -43,12 +37,28 @@ class RegisterFragment : Fragment(), RegisterClickListener {
         binding.listener = this
     }
 
+    fun observeLiveData() {
+        viewModel.answer.observe(viewLifecycleOwner) { answer ->
+            answer.success?.let {
+                if (it == 1) {
+                    (activity as LogoutActivity).login()
+                    makeToast(requireContext(), answer.message.toString())
+                    binding.progressBar.visibility = View.GONE
+                } else {
+                    makeToast(requireContext(), answer.message.toString())
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        }
+    }
+
     override fun btnRegisterClick(view: View, email: String?, password: String?) {
         email?.let {
             password?.let { password ->
                 if (it != "" && password != "") {
-                    viewModel.register((activity as LogoutActivity), requireContext(), it, password)
+                    viewModel.register(it, password)
                     binding.progressBar.visibility = View.VISIBLE
+                    observeLiveData()
                 }
             }
         }

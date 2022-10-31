@@ -1,10 +1,6 @@
 package com.tuncaksoy.inviobitirmeprojesi.retrofit
 
-import android.annotation.TargetApi
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.net.*
 import android.os.Build
 import androidx.lifecycle.MutableLiveData

@@ -1,7 +1,5 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.adapter
 
-import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +14,6 @@ import com.tuncaksoy.inviobitirmeprojesi.data.model.Food
 import com.tuncaksoy.inviobitirmeprojesi.databinding.FavoriteRecyclerRowBinding
 import com.tuncaksoy.inviobitirmeprojesi.listener.FavoriteAdapterClickListener
 import com.tuncaksoy.inviobitirmeprojesi.ui.view.FavoritesFragmentDirections
-import com.tuncaksoy.inviobitirmeprojesi.ui.view.HomePageFragmentDirections
 import com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel.FavoritesViewModel
 
 class FavoriteAdapter(var viewModel: FavoritesViewModel) :

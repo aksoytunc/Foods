@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="clickText">#3949ab</color>
     <color name="orange">#F44336</color>
+    <color name="btnBlue">#009ef6</color>
     <color name="orangeLite">#FF9800</color>
     <color name="positiveBtn">#47BE7D</color>
     <color name="fragmentBlack">#80000000</color>

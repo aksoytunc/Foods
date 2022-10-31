@@ -2,7 +2,6 @@ package com.tuncaksoy.inviobitirmeprojesi.data.Preferences
 
 import android.content.Context
 import com.tuncaksoy.inviobitirmeprojesi.data.model.DisplayData
-import com.tuncaksoy.inviobitirmeprojesi.data.model.User
 
 
 class AppSharedPreferences(val context: Context) {

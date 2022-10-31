@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.tuncaksoy.inviobitirmeprojesi.R
@@ -35,7 +34,7 @@ class ShoppingFragment : Fragment(), ShoppingClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ShoppingViewModel::class.java)
+        viewModel = ViewModelProvider(this)[ShoppingViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -58,9 +57,11 @@ class ShoppingFragment : Fragment(), ShoppingClickListener {
     fun observeLiveData() {
         viewModel.networkConnection.observe(viewLifecycleOwner) { isConnected ->
             Log.e("conntected", isConnected.toString())
-            if (isConnected) {
-                viewModel.getBasket()
-            } else makeToast(requireContext(), "control Internet")
+            if (isConnected) viewModel.getBasket()
+            else {
+                binding.progress.visibility = View.VISIBLE
+                makeToast(requireContext(), "control Internet")
+            }
         }
         viewModel.basketFoodList.observe(viewLifecycleOwner) {
             basketList = it

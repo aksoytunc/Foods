@@ -1,6 +1,5 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Answer

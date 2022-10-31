@@ -1,7 +1,5 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.adapter
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +15,6 @@ import com.tuncaksoy.inviobitirmeprojesi.data.model.Food
 import com.tuncaksoy.inviobitirmeprojesi.databinding.BasketRecyclerRowBinding
 import com.tuncaksoy.inviobitirmeprojesi.listener.BasketAdapterClickListener
 import com.tuncaksoy.inviobitirmeprojesi.ui.view.BasketDeleteBottomSheetFragment
-import com.tuncaksoy.inviobitirmeprojesi.ui.view.HomePageFragmentDirections
 import com.tuncaksoy.inviobitirmeprojesi.ui.view.ShoppingFragmentDirections
 import com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel.ShoppingViewModel
 

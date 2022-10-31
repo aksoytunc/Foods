@@ -19,7 +19,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.tuncaksoy.inviobitirmeprojesi.R
 import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentUserBinding
@@ -31,18 +30,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class UserFragment : Fragment(), UserClickListener {
     private lateinit var binding: FragmentUserBinding
     private lateinit var viewModel: UserViewModel
-    private lateinit var storage: FirebaseStorage
-    private lateinit var fireBase: FirebaseFirestore
     var selectedImage: Uri? = null
     var selectedBitmap: Bitmap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        viewModel = ViewModelProvider(this)[UserViewModel::class.java]
         viewModel.getLiveUser()
         viewModel.getModePrefences()
-        storage = FirebaseStorage.getInstance()
-        fireBase = FirebaseFirestore.getInstance()
     }
 
     override fun onCreateView(
@@ -80,7 +75,7 @@ class UserFragment : Fragment(), UserClickListener {
     }
 
     fun saveImageFirebase(image: Uri) {
-        val reference = storage.reference
+        val reference = viewModel.firebseStore.reference
         val imageRef =
             reference.child("profilePhotos")
                 .child(viewModel.firebaseAuth.currentUser?.email.toString())

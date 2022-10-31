@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.tuncaksoy.inviobitirmeprojesi.data.Preferences.AppSharedPreferences
 import com.tuncaksoy.inviobitirmeprojesi.data.datasource.FoodDataSource
 import com.tuncaksoy.inviobitirmeprojesi.data.repository.FoodRepository
@@ -65,6 +66,9 @@ class AppModule {
     @Singleton
     fun provideAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
+    @Provides
+    @Singleton
+    fun provideFirebaseStore(): FirebaseStorage = FirebaseStorage.getInstance()
 
     @Provides
     @Singleton

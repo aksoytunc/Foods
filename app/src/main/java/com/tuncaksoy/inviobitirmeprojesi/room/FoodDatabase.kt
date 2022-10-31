@@ -1,6 +1,5 @@
 package com.tuncaksoy.inviobitirmeprojesi.room
 
-import android.content.Context
 import androidx.room.*
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Food
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Order

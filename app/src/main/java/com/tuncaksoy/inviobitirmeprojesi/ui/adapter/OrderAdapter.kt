@@ -1,6 +1,5 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils

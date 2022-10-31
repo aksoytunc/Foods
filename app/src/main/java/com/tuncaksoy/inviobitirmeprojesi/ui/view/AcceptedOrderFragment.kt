@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import com.tuncaksoy.inviobitirmeprojesi.R
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Order
 import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentAcceptedOrderBinding
-import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentShoppingBinding
 
 class AcceptedOrderFragment : Fragment() {
     private lateinit var binding: FragmentAcceptedOrderBinding

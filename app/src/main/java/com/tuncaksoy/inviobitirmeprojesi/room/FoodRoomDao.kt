@@ -1,7 +1,6 @@
 package com.tuncaksoy.inviobitirmeprojesi.room
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Food

@@ -1,7 +1,6 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +21,7 @@ class FavoritesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
+        viewModel = ViewModelProvider(this)[FavoritesViewModel::class.java]
         viewModel.getAllFavorites()
     }
 
@@ -45,7 +44,6 @@ class FavoritesFragment : Fragment() {
     fun observeLiveData(){
         viewModel.favoritesList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-            Log.e("listeadapter",it.toString())
         }
         viewModel.answer.observe(viewLifecycleOwner){
             viewModel.getAllFavorites()

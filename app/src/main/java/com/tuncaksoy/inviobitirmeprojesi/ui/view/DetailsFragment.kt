@@ -2,7 +2,6 @@ package com.tuncaksoy.inviobitirmeprojesi.ui.view
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +15,6 @@ import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentDetailsBinding
 import com.tuncaksoy.inviobitirmeprojesi.listener.DetalsClickListener
 import com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel.DetalsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment(), DetalsClickListener {
@@ -25,12 +22,12 @@ class DetailsFragment : Fragment(), DetalsClickListener {
     private lateinit var viewModel: DetalsViewModel
     lateinit var product: Food
     lateinit var newProduct: Food
-    var number = 0
+    var foodNumber = 0
     var newFoodNumber = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DetalsViewModel::class.java)
+        viewModel = ViewModelProvider(this)[DetalsViewModel::class.java]
         arguments?.let {
             product = DetailsFragmentArgs.fromBundle(it).product
             viewModel.newProduct(product)
@@ -61,16 +58,16 @@ class DetailsFragment : Fragment(), DetalsClickListener {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun plusClick() {
-        number = binding.foodNumberText.text.toString().toInt()
-        number++
-        binding.foodNumberText.text = number.toString()
+        foodNumber = binding.foodNumberText.text.toString().toInt()
+        foodNumber++
+        binding.foodNumberText.text = foodNumber.toString()
     }
 
     override fun sourClick() {
-        number = binding.foodNumberText.text.toString().toInt()
-        if (number > 1) {
-            number--
-            binding.foodNumberText.text = number.toString()
+        foodNumber = binding.foodNumberText.text.toString().toInt()
+        if (foodNumber > 1) {
+            foodNumber--
+            binding.foodNumberText.text = foodNumber.toString()
         }
     }
 

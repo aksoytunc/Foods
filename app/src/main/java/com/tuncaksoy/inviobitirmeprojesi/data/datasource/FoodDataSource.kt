@@ -1,7 +1,6 @@
 package com.tuncaksoy.inviobitirmeprojesi.data.datasource
 
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
@@ -11,8 +10,8 @@ import com.tuncaksoy.inviobitirmeprojesi.data.Preferences.AppSharedPreferences
 import com.tuncaksoy.inviobitirmeprojesi.data.model.*
 import com.tuncaksoy.inviobitirmeprojesi.retrofit.FoodRetrofitDao
 import com.tuncaksoy.inviobitirmeprojesi.room.FoodRoomDao
-import com.tuncaksoy.inviobitirmeprojesi.ui.view.LogoutActivity
-import com.tuncaksoy.inviobitirmeprojesi.utils.makeToast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class FoodDataSource(
     var foodRetrofitDao: FoodRetrofitDao,
@@ -27,12 +26,12 @@ class FoodDataSource(
     var filterFoodList = listOf<Food>()
     var lastFoodList = listOf<Food>()
     var lastBasketList = listOf<Food>()
+    val answer = MutableLiveData<Answer>()
     var userLiveData = MutableLiveData<User>()
-    var userAnswer = MutableLiveData<Answer>()
     var userId: String? = firebaseAuth.currentUser?.uid
     var userEmail: String? = firebaseAuth.currentUser?.email
 
-
+    //Food
     suspend fun getAllFood(): List<Food> {
         userEmail = firebaseAuth.currentUser?.email
         userEmail?.let {
@@ -62,7 +61,9 @@ class FoodDataSource(
             for (i in 0..basketFoodList.size - 2) {
                 if (basketFoodList[i].yemek_adi == basketFoodList[i + 1].yemek_adi) {
                     Log.d("sildik", basketFoodList[i].yemek_adi.toString())
-                    if (basketFoodList[i].yemek_siparis_adet?.toInt()!! >= basketFoodList[i + 1].yemek_siparis_adet?.toInt()!!) {
+                    if (basketFoodList[i].yemek_siparis_adet?.toInt()!! >=
+                        basketFoodList[i + 1].yemek_siparis_adet?.toInt()!!
+                    ) {
                         deleteToBasket(basketFoodList[i + 1].sepet_yemek_id)
                     } else deleteToBasket(basketFoodList[i].sepet_yemek_id)
                 }
@@ -167,19 +168,11 @@ class FoodDataSource(
     }
 
     suspend fun addToBasket(
-        foodName: String?,
-        foodImage: String?,
-        foodPrice: Int?,
-        foodNumber: Int?
-    ): Answer {
-        return foodRetrofitDao.addToBasket(
-            foodName,
-            foodImage,
-            foodPrice,
-            foodNumber,
-            userEmail
-        )
+        foodName: String?, foodImage: String?, foodPrice: Int?, foodNumber: Int?
+    ): Answer = withContext(Dispatchers.IO) {
+        foodRetrofitDao.addToBasket(foodName, foodImage, foodPrice, foodNumber, userEmail)
     }
+
 
     suspend fun deleteToBasket(foodBasketId: Int?): Answer =
         foodRetrofitDao.deleteToBasket(foodBasketId, userEmail)
@@ -221,7 +214,9 @@ class FoodDataSource(
         return Answer(1, "true")
     }
 
-    fun register(activity: LogoutActivity, context: Context, email: String, password: String) {
+    //Firebse
+    fun register(email: String, password: String): MutableLiveData<Answer> {
+        answer.value = Answer(null, null)
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -229,13 +224,13 @@ class FoodDataSource(
                     val uid = firebaseUser.uid
                     val user = User(uid, email, 0, "none")
                     collectionReference.document(uid).set(user).addOnSuccessListener {
-                        makeToast(context, "Başarı ile Kayıt olundu")
-                        activity.login()
+                        answer.value = Answer(1, "Başarı ile Kaytıt olundu")
                     }
                 }
             }.addOnFailureListener {
-                makeToast(context, it.toString())
+                answer.value = Answer(0, it.toString())
             }
+        return answer
     }
 
     fun getLiveUser(): MutableLiveData<User> {
@@ -273,6 +268,7 @@ class FoodDataSource(
         }
     }
 
+    //Preferences
     fun loadModePreferences(languageMode: Boolean, displayMode: Boolean) =
         appSharedPref.loadModePreferences(languageMode, displayMode)
 

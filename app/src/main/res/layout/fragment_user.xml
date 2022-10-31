@@ -170,6 +170,7 @@
                                 android:layout_marginStart="100dp"
                                 android:layout_marginEnd="100dp"
                                 android:layout_marginBottom="15dp"
+                                android:backgroundTint="@color/btnBlue"
                                 android:onClick="@{() -> listener.loadProfileImageClick()}"
                                 android:text="Load Image"
                                 android:textAllCaps="false"

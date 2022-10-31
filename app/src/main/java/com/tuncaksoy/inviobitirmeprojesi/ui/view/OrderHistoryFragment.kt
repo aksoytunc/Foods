@@ -21,7 +21,7 @@ class OrderHistoryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(OrderHistoryViewModel::class.java)
+        viewModel = ViewModelProvider(this)[OrderHistoryViewModel::class.java]
     }
 
     override fun onCreateView(

@@ -1,7 +1,6 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +11,12 @@ import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.tuncaksoy.inviobitirmeprojesi.R
-import com.tuncaksoy.inviobitirmeprojesi.data.repository.FoodRepository
 import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentHomePageBinding
 import com.tuncaksoy.inviobitirmeprojesi.listener.HomePageClickListener
-import com.tuncaksoy.inviobitirmeprojesi.retrofit.NetworkConnection
 import com.tuncaksoy.inviobitirmeprojesi.ui.adapter.AllFoodAdapter
 import com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel.HomePageViewModel
 import com.tuncaksoy.inviobitirmeprojesi.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomePageFragment : Fragment(),
@@ -36,7 +32,7 @@ class HomePageFragment : Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomePageViewModel::class.java)
+        viewModel = ViewModelProvider(this)[HomePageViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -52,13 +48,13 @@ class HomePageFragment : Fragment(),
         binding.listener = this
         adapter = AllFoodAdapter(viewModel)
         binding.adapter = adapter
-        binding.searchView.setOnQueryTextListener(this@HomePageFragment)
         observeLiveData()
     }
 
     fun observeLiveData() {
         viewModel.networkConnection.observe(viewLifecycleOwner) { isConnected ->
             if (isConnected) {
+                binding.searchView.setOnQueryTextListener(this@HomePageFragment)
                 viewModel.getAllFood()
                 sortlist()
                 filterList()

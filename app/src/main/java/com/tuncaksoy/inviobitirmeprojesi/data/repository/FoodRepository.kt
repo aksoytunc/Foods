@@ -1,68 +1,41 @@
 package com.tuncaksoy.inviobitirmeprojesi.data.repository
 
-import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import com.tuncaksoy.inviobitirmeprojesi.data.datasource.FoodDataSource
-import com.tuncaksoy.inviobitirmeprojesi.data.model.Answer
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Food
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Order
-import com.tuncaksoy.inviobitirmeprojesi.data.model.User
-import com.tuncaksoy.inviobitirmeprojesi.ui.view.LogoutActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class FoodRepository(var foodDataSource: FoodDataSource) {
 
-    suspend fun getNewAllFood(): List<Food> =
-        foodDataSource.getLastAllFood()
+    suspend fun getNewAllFood() = foodDataSource.getLastAllFood()
 
-    suspend fun getLastBasketList(): List<Food> = foodDataSource.getLastBasketList()
+    suspend fun getLastBasketList() = foodDataSource.getLastBasketList()
 
-    suspend fun filter(
-        positionFilter: Int?,
-        searchName: String,
-        positionSort: Int?
-    ): List<Food> =
+    suspend fun filter(positionFilter: Int?, searchName: String, positionSort: Int?) =
         foodDataSource.filter(positionFilter, searchName, positionSort)
 
     suspend fun addToBasket(
-        foodName: String?,
-        foodImage: String?,
-        foodPrice: Int?,
-        foodNumber: Int?,
-    ): Answer = withContext(Dispatchers.IO) {
-        foodDataSource.addToBasket(
-            foodName,
-            foodImage,
-            foodPrice,
-            foodNumber,
-        )
-    }
+        foodName: String?, foodImage: String?, foodPrice: Int?, foodNumber: Int?
+    ) = foodDataSource.addToBasket(foodName, foodImage, foodPrice, foodNumber)
 
-    suspend fun deleteToBasket(foodBasketId: Int?): Answer =
-        foodDataSource.deleteToBasket(foodBasketId)
 
-    suspend fun newProduct(product: Food): Food = foodDataSource.newProduct(product)
+    suspend fun deleteToBasket(foodBasketId: Int?) = foodDataSource.deleteToBasket(foodBasketId)
 
-    suspend fun getFavoritesFood(): List<Food> = foodDataSource.getFavoritesFood()
+    suspend fun newProduct(product: Food) = foodDataSource.newProduct(product)
 
-    suspend fun saveFavoritesFood(food: Food): Answer = foodDataSource.saveFavoritesFood(food)
+    suspend fun getFavoritesFood() = foodDataSource.getFavoritesFood()
 
-    suspend fun deleteFavoritesFood(food: Food): Answer = foodDataSource.deleteFavoritesFood(food)
+    suspend fun saveFavoritesFood(food: Food) = foodDataSource.saveFavoritesFood(food)
+
+    suspend fun deleteFavoritesFood(food: Food) = foodDataSource.deleteFavoritesFood(food)
 
     suspend fun getOrder(): List<Order> = foodDataSource.getOrder()
 
-    suspend fun saveOrder(order: Order): Answer = foodDataSource.saveOrder(order)
+    suspend fun saveOrder(order: Order) = foodDataSource.saveOrder(order)
 
-    fun register(
-        activity: LogoutActivity,
-        context: Context,
-        userEmail: String,
-        userPassword: String
-    ) =
-        foodDataSource.register(activity, context, userEmail, userPassword)
+    fun register(userEmail: String, userPassword: String) =
+        foodDataSource.register(userEmail, userPassword)
 
-    fun getLiveUser(): MutableLiveData<User> = foodDataSource.getLiveUser()
+    fun getLiveUser() = foodDataSource.getLiveUser()
 
     fun updateBalance(lastBalance: Int) = foodDataSource.updateBalance(lastBalance)
 

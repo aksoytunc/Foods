@@ -9,7 +9,9 @@
             name="order"
             type="com.tuncaksoy.inviobitirmeprojesi.data.model.Order" />
     </data>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,7 +35,7 @@
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/imageView13"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="300dp"
             android:layout_marginBottom="7dp"
             android:src="@drawable/gif2"
             app:layout_constraintBottom_toTopOf="@+id/textView19"
@@ -109,4 +111,5 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Toplam Fiyat: 542 ₺" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
 </layout>

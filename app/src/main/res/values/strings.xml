@@ -23,4 +23,5 @@
     <string name="orderTook">Your order has been taken</string>
     <string name="orders">Orders</string>
     <string name="favorites">Favorites</string>
+    <string name="register">REGISTER</string>
 </resources>
