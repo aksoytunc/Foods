@@ -14,6 +14,7 @@ import com.tuncaksoy.inviobitirmeprojesi.data.model.Food
 import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentDetailsBinding
 import com.tuncaksoy.inviobitirmeprojesi.listener.DetalsClickListener
 import com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel.DetalsViewModel
+import com.tuncaksoy.inviobitirmeprojesi.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,10 +29,6 @@ class DetailsFragment : Fragment(), DetalsClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[DetalsViewModel::class.java]
-        arguments?.let {
-            product = DetailsFragmentArgs.fromBundle(it).product
-            viewModel.newProduct(product)
-        }
     }
 
     override fun onCreateView(
@@ -40,6 +37,16 @@ class DetailsFragment : Fragment(), DetalsClickListener {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
+        arguments?.let {
+            product = DetailsFragmentArgs.fromBundle(it).product
+            viewModel.networkConnection.observe(viewLifecycleOwner) { isConnected ->
+                if (isConnected) {
+                    viewModel.newProduct(product)
+                } else {
+                    makeToast(requireContext(), getString(R.string.controlInternet))
+                }
+            }
+        }
         return binding.root
     }
 
@@ -50,10 +57,16 @@ class DetailsFragment : Fragment(), DetalsClickListener {
     }
 
     override fun addToBasketClick(foodNumber: String?) {
-        foodNumber?.let {
-            newFoodNumber = it.toInt()
+        viewModel.networkConnection.observe(viewLifecycleOwner) { isConnected ->
+            if (isConnected) {
+                foodNumber?.let {
+                    newFoodNumber = it.toInt()
+                }
+                viewModel.deleteToBasket(newProduct, newFoodNumber)
+            } else {
+                makeToast(requireContext(), getString(R.string.controlInternet))
+            }
         }
-        viewModel.deleteToBasket(newProduct, newFoodNumber)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

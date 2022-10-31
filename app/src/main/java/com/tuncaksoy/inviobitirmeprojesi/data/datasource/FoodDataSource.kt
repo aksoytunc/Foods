@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
+import com.tuncaksoy.inviobitirmeprojesi.R
 import com.tuncaksoy.inviobitirmeprojesi.data.Preferences.AppSharedPreferences
 import com.tuncaksoy.inviobitirmeprojesi.data.model.*
 import com.tuncaksoy.inviobitirmeprojesi.retrofit.FoodRetrofitDao
@@ -121,23 +122,22 @@ class FoodDataSource(
         when (positionFilter) {
             1 -> filterFoodList = lastFoodList.filter {
                 it.yemek_adi.let {
-                    it!!.contains("Izgara") || it.contains("Köfte") || it.contains("Lazanya") || it.contains(
+                    it!!.contains("Izgara") || it.contains("Köfte") ||
+                            it.contains("Lazanya") || it.contains(
                         "Makarna"
                     ) || it.contains("Pizza")
                 }
             }
             2 -> filterFoodList = lastFoodList.filter {
                 it.yemek_adi.let {
-                    it!!.contains("Ayran") || it.contains("Su") || it.contains("Kahve") || it.contains(
-                        "Fanta"
-                    )
+                    it!!.contains("Ayran") || it.contains("Su") ||
+                            it.contains("Kahve") || it.contains("Fanta")
                 }
             }
             3 -> filterFoodList = lastFoodList.filter {
                 it.yemek_adi.let {
-                    it!!.contains("Baklava") || it.contains("Kadayıf") || it.contains("Sütlaç") || it.contains(
-                        "Tiramisu"
-                    )
+                    it!!.contains("Baklava") || it.contains("Kadayıf") ||
+                            it.contains("Sütlaç") || it.contains("Tiramisu")
                 }
             }
             else -> filterFoodList = lastFoodList
@@ -224,7 +224,7 @@ class FoodDataSource(
                     val uid = firebaseUser.uid
                     val user = User(uid, email, 0, "none")
                     collectionReference.document(uid).set(user).addOnSuccessListener {
-                        answer.value = Answer(1, "Başarı ile Kaytıt olundu")
+                        answer.value = Answer(1, "")
                     }
                 }
             }.addOnFailureListener {

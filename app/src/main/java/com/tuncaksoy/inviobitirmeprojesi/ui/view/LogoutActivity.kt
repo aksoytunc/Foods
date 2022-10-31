@@ -18,6 +18,7 @@ class LogoutActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_logout)
+        binding.splashScreen.setOnClickListener {}
         val timer = object : CountDownTimer(2500, 2500) {
             override fun onTick(millisUntilFinished: Long) {
             }

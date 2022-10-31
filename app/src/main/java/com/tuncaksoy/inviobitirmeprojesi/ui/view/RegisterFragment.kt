@@ -42,7 +42,7 @@ class RegisterFragment : Fragment(), RegisterClickListener {
             answer.success?.let {
                 if (it == 1) {
                     (activity as LogoutActivity).login()
-                    makeToast(requireContext(), answer.message.toString())
+                    makeToast(requireContext(), getString(R.string.registered))
                     binding.progressBar.visibility = View.GONE
                 } else {
                     makeToast(requireContext(), answer.message.toString())

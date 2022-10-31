@@ -102,8 +102,8 @@ class BasketCheckBottomSheetFragment(
                     }
                     viewModel.saveOrder(order)
                     dismiss()
-                } else makeToast(requireContext(), "Address cannot be left blank !")
-            } else makeToast(requireContext(), "Wrong card number, must be 16 digits !")
+                } else makeToast(requireContext(), getString(R.string.noAddress))
+            } else makeToast(requireContext(), getString(R.string.wrongCard))
         } else {
             if (binding.editTextAdress.text.toString() != "") {
                 if (wallet >= total) {
@@ -129,8 +129,8 @@ class BasketCheckBottomSheetFragment(
                     viewModel.saveOrder(order)
                     viewModel.updateBalance(wallet, total)
                     dismiss()
-                } else makeToast(requireContext(), "Insufficient balance !")
-            } else makeToast(requireContext(), "Address cannot be left blank !")
+                } else makeToast(requireContext(), getString(R.string.noBalance))
+            } else makeToast(requireContext(), getString(R.string.noAddress))
         }
     }
 

@@ -49,7 +49,7 @@ class LoginFragment : Fragment(), LoginClickListener {
                         makeToast(requireContext(), it.message.toString())
                         binding.progressBar.visibility = View.GONE
                     }
-                }else makeToast(requireContext(),"email ve şifre boş bırakılamaz")
+                }else makeToast(requireContext(),getString(R.string.blankEmailPass))
             }
         }
     }

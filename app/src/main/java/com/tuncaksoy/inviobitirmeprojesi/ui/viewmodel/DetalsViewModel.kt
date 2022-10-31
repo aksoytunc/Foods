@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Answer
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Food
 import com.tuncaksoy.inviobitirmeprojesi.data.repository.FoodRepository
+import com.tuncaksoy.inviobitirmeprojesi.retrofit.NetworkConnection
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -12,7 +13,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetalsViewModel @Inject constructor(var foodRepository: FoodRepository) : ViewModel() {
+class DetalsViewModel @Inject constructor(
+    var foodRepository: FoodRepository,
+    var networkConnection: NetworkConnection
+) : ViewModel() {
     var deleteAnswer = MutableLiveData<Answer>()
     var addAnswer = MutableLiveData<Answer>()
     var newProduct = MutableLiveData<Food>()

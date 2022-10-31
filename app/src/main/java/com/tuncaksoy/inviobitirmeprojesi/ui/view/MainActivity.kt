@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewMoldel = ViewModelProvider(this)[MainActivityViewModel::class.java]
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        setContentView(binding.root)
+        binding.splashScreen.setOnClickListener {}
         controlDisplayData()
         if (viewMoldel.firebaseAuth.currentUser == null) {
             logOut()

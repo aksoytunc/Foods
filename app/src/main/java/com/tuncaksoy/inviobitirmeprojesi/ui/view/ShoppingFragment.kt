@@ -51,16 +51,16 @@ class ShoppingFragment : Fragment(), ShoppingClickListener {
         adapter = BasketAdapter(parentFragmentManager, viewModel)
         binding.listener = this
         binding.adapter = adapter
+        binding.progress.setOnClickListener {}
         observeLiveData()
     }
 
     fun observeLiveData() {
         viewModel.networkConnection.observe(viewLifecycleOwner) { isConnected ->
-            Log.e("conntected", isConnected.toString())
             if (isConnected) viewModel.getBasket()
             else {
                 binding.progress.visibility = View.VISIBLE
-                makeToast(requireContext(), "control Internet")
+                makeToast(requireContext(), getString(R.string.controlInternet))
             }
         }
         viewModel.basketFoodList.observe(viewLifecycleOwner) {

@@ -12,15 +12,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.tuncaksoy.inviobitirmeprojesi.R
 import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentHomePageBinding
-import com.tuncaksoy.inviobitirmeprojesi.listener.HomePageClickListener
 import com.tuncaksoy.inviobitirmeprojesi.ui.adapter.AllFoodAdapter
 import com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel.HomePageViewModel
 import com.tuncaksoy.inviobitirmeprojesi.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomePageFragment : Fragment(),
-    HomePageClickListener, SearchView.OnQueryTextListener {
+class HomePageFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding: FragmentHomePageBinding
     private lateinit var viewModel: HomePageViewModel
     private lateinit var adapter: AllFoodAdapter
@@ -45,9 +43,9 @@ class HomePageFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.listener = this
         adapter = AllFoodAdapter(viewModel)
         binding.adapter = adapter
+        binding.progress.setOnClickListener {}
         observeLiveData()
     }
 
@@ -60,7 +58,10 @@ class HomePageFragment : Fragment(),
                 filterList()
                 filter()
                 sort()
-            } else makeToast(requireContext(), "control Internet")
+            } else {
+                binding.progress.visibility = View.VISIBLE
+                makeToast(requireContext(), getString(R.string.controlInternet))
+            }
         }
         viewModel.lastFoodList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
@@ -77,10 +78,10 @@ class HomePageFragment : Fragment(),
 
     fun sortlist() {
         val sortList = ArrayList<String>()
-        sortList.add("Name A-Z")
-        sortList.add("Name Z-A")
-        sortList.add("Price 0-∞")
-        sortList.add("Price ∞-0")
+        sortList.add(getString(R.string.az))
+        sortList.add(getString(R.string.za))
+        sortList.add(getString(R.string.price0))
+        sortList.add(getString(R.string.price1))
         val adapter =
             ArrayAdapter(
                 this.requireContext(),
@@ -93,10 +94,10 @@ class HomePageFragment : Fragment(),
 
     fun filterList() {
         val filterList = ArrayList<String>()
-        filterList.add("All")
-        filterList.add("Food")
-        filterList.add("Drink")
-        filterList.add("Sweet")
+        filterList.add(getString(R.string.all))
+        filterList.add(getString(R.string.food))
+        filterList.add(getString(R.string.drink))
+        filterList.add(getString(R.string.sweet))
         val adapter = ArrayAdapter(
             this.requireContext(),
             android.R.layout.simple_list_item_1,
