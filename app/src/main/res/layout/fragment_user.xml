@@ -141,6 +141,7 @@
                                 android:ems="10"
                                 android:hint="@string/enter_amount"
                                 android:inputType="number|textPersonName"
+                                android:maxLength="4"
                                 android:textAlignment="center"
                                 app:layout_constraintBottom_toTopOf="@+id/button9"
                                 app:layout_constraintEnd_toEndOf="parent"
