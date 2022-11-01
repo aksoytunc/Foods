@@ -12,13 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.tuncaksoy.inviobitirmeprojesi.R
 import com.tuncaksoy.inviobitirmeprojesi.data.model.Food
 import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentDetailsBinding
-import com.tuncaksoy.inviobitirmeprojesi.listener.DetalsClickListener
+import com.tuncaksoy.inviobitirmeprojesi.listener.DetailsClickListener
 import com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel.DetalsViewModel
 import com.tuncaksoy.inviobitirmeprojesi.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment(), DetalsClickListener {
+class DetailsFragment : Fragment(), DetailsClickListener {
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var viewModel: DetalsViewModel
     lateinit var product: Food
@@ -50,6 +50,25 @@ class DetailsFragment : Fragment(), DetalsClickListener {
         return binding.root
     }
 
+    fun observeLiveData() {
+        viewModel.newProduct.observe(viewLifecycleOwner) {
+            newProduct = it
+            binding.food = newProduct
+        }
+
+        viewModel.deleteAnswer.observe(viewLifecycleOwner) {
+            viewModel.addBasket(newProduct, newFoodNumber)
+        }
+
+        viewModel.addAnswer.observe(viewLifecycleOwner) {
+            viewModel.newProduct(newProduct)
+        }
+
+        viewModel.favoriteAnswer.observe(viewLifecycleOwner){
+            viewModel.newProduct(newProduct)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.listener = this
@@ -69,6 +88,11 @@ class DetailsFragment : Fragment(), DetalsClickListener {
         }
     }
 
+    override fun saveFavoriteClick(food: Food) {
+        if (food.yemek_favori == true) viewModel.deleteFavoritesFood(food)
+        else viewModel.saveFavoritesFood(food)
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun plusClick() {
         foodNumber = binding.foodNumberText.text.toString().toInt()
@@ -81,27 +105,6 @@ class DetailsFragment : Fragment(), DetalsClickListener {
         if (foodNumber > 1) {
             foodNumber--
             binding.foodNumberText.text = foodNumber.toString()
-        }
-    }
-
-    fun observeLiveData() {
-        viewModel.newProduct.observe(viewLifecycleOwner) {
-            newProduct = it
-            newProduct.yemek_favori = product.yemek_favori
-            binding.food = newProduct
-        }
-
-        viewModel.deleteAnswer.observe(viewLifecycleOwner) {
-            viewModel.addBasket(newProduct, newFoodNumber)
-        }
-
-        viewModel.addAnswer.observe(viewLifecycleOwner) {
-            viewModel.newProduct(newProduct)
-        }
-
-        viewModel.newProduct.observe(viewLifecycleOwner) {
-            newProduct = it
-            binding.food = it
         }
     }
 }

@@ -61,4 +61,7 @@
     <string name="card">Kart</string>
     <string name="wallet">Cüzdan</string>
     <string name="confirm_basket">Sepeti onayla</string>
+    <string name="profile">Profil</string>
+    <string name="sectionsBlank">Bölümler boş bırakılamaz!</string>
+    <string name="wrongPassword">Şifreler eşleşmiyor!</string>
 </resources>

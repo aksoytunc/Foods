@@ -32,6 +32,8 @@ class FoodRepository(var foodDataSource: FoodDataSource) {
 
     suspend fun saveOrder(order: Order) = foodDataSource.saveOrder(order)
 
+    fun login(email: String, password: String) = foodDataSource.login(email, password)
+
     fun register(userEmail: String, userPassword: String) =
         foodDataSource.register(userEmail, userPassword)
 

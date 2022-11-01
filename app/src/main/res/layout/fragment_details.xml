@@ -7,7 +7,7 @@
 
         <variable
             name="listener"
-            type="com.tuncaksoy.inviobitirmeprojesi.listener.DetalsClickListener" />
+            type="com.tuncaksoy.inviobitirmeprojesi.listener.DetailsClickListener" />
 
         <variable
             name="food"
@@ -57,6 +57,7 @@
                     android:layout_height="50dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
+                    android:onClick="@{() -> listener.saveFavoriteClick(food)}"
                     android:src="@{food.yemek_favori ? @drawable/favorites_icon : @drawable/no_favorites_icon}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

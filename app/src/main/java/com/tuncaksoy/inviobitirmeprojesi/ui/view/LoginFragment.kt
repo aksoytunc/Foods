@@ -38,18 +38,28 @@ class LoginFragment : Fragment(), LoginClickListener {
         binding.listener = this
     }
 
+    fun observeLiveData() {
+        viewModel.answer.observe(viewLifecycleOwner) { answer ->
+            answer.success?.let {
+                if (it == 1) {
+                    (activity as LogoutActivity).login()
+                    binding.progressBar.visibility = View.GONE
+                } else {
+                    makeToast(requireContext(), answer.message.toString())
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        }
+    }
+
     override fun btnLoginClick(view: View, email: String?, password: String?) {
-        email?.let {
-            password?.let { password ->
-                if (it != "" && password != "") {
+        email?.let { nEmail ->
+            password?.let { nPassword ->
+                if (nEmail != "" && nPassword != "") {
                     binding.progressBar.visibility = View.VISIBLE
-                    viewModel.firebaseAuth.signInWithEmailAndPassword(it, password).addOnCompleteListener { task ->
-                        if (task.isSuccessful) (activity as LogoutActivity).login()
-                    }.addOnFailureListener {
-                        makeToast(requireContext(), it.message.toString())
-                        binding.progressBar.visibility = View.GONE
-                    }
-                }else makeToast(requireContext(),getString(R.string.blankEmailPass))
+                    viewModel.login(nEmail, nPassword)
+                    observeLiveData()
+                } else makeToast(requireContext(), getString(R.string.blankEmailPass))
             }
         }
     }

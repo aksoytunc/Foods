@@ -102,7 +102,7 @@
                     android:layout_marginBottom="50dp"
                     android:backgroundTint="@color/positiveBtn"
                     android:elevation="10dp"
-                    android:onClick="@{() -> listener.btnRegisterClick(btnRegister,etxtEmail.getText().toString(),etxtPassword.getText().toString())}"
+                    android:onClick="@{() -> listener.btnRegisterClick(etxtEmail.getText().toString(),etxtPassword.getText().toString(),etxtAgainPassword.getText().toString())}"
                     android:text="@string/registerS"
                     android:textAllCaps="false"
                     app:cornerRadius="15dp"

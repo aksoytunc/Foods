@@ -20,6 +20,7 @@ class DetalsViewModel @Inject constructor(
     var deleteAnswer = MutableLiveData<Answer>()
     var addAnswer = MutableLiveData<Answer>()
     var newProduct = MutableLiveData<Food>()
+    var favoriteAnswer = MutableLiveData<Answer>()
 
     fun deleteToBasket(product: Food, foodNumer: Int?) {
         CoroutineScope(Dispatchers.Main).launch {
@@ -46,6 +47,18 @@ class DetalsViewModel @Inject constructor(
     fun newProduct(product: Food) {
         CoroutineScope(Dispatchers.Main).launch {
             newProduct.value = foodRepository.newProduct(product)
+        }
+    }
+
+    fun saveFavoritesFood(food: Food) {
+        CoroutineScope(Dispatchers.Main).launch {
+            favoriteAnswer.value = foodRepository.saveFavoritesFood(food)
+        }
+    }
+
+    fun deleteFavoritesFood(food: Food) {
+        CoroutineScope(Dispatchers.Main).launch {
+            favoriteAnswer.value = foodRepository.deleteFavoritesFood(food)
         }
     }
 }

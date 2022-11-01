@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.tuncaksoy.inviobitirmeprojesi.R
@@ -52,15 +53,17 @@ class RegisterFragment : Fragment(), RegisterClickListener {
         }
     }
 
-    override fun btnRegisterClick(view: View, email: String?, password: String?) {
-        email?.let {
-            password?.let { password ->
-                if (it != "" && password != "") {
-                    viewModel.register(it, password)
-                    binding.progressBar.visibility = View.VISIBLE
-                    observeLiveData()
+    override fun btnRegisterClick(email: String?, password: String?, passwordAgain: String?) {
+        if (email != "" && password != "" && passwordAgain != ""){
+            email?.let { nEmail ->
+                password?.let { nPassword->
+                    if (password == passwordAgain){
+                        viewModel.register(nEmail,nPassword)
+                        binding.progressBar.visibility = View.VISIBLE
+                        observeLiveData()
+                    }else makeToast(requireContext(),getString(R.string.wrongPassword))
                 }
             }
-        }
+        }else makeToast(requireContext(),getString(R.string.sectionsBlank))
     }
 }

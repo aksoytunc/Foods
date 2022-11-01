@@ -61,4 +61,7 @@
     <string name="card">Card</string>
     <string name="wallet">Wallet</string>
     <string name="confirm_basket">Confirm basket</string>
+    <string name="profile">Profile</string>
+    <string name="sectionsBlank">Sections cannot be left blank!</string>
+    <string name="wrongPassword">Passwords do not match!</string>
 </resources>

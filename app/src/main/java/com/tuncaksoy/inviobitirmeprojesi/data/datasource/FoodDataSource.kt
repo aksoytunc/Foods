@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
-import com.tuncaksoy.inviobitirmeprojesi.R
 import com.tuncaksoy.inviobitirmeprojesi.data.Preferences.AppSharedPreferences
 import com.tuncaksoy.inviobitirmeprojesi.data.model.*
 import com.tuncaksoy.inviobitirmeprojesi.retrofit.FoodRetrofitDao
@@ -27,7 +26,8 @@ class FoodDataSource(
     var filterFoodList = listOf<Food>()
     var lastFoodList = listOf<Food>()
     var lastBasketList = listOf<Food>()
-    val answer = MutableLiveData<Answer>()
+    val answerRegister = MutableLiveData<Answer>()
+    val answerLogin = MutableLiveData<Answer>()
     var userLiveData = MutableLiveData<User>()
     var userId: String? = firebaseAuth.currentUser?.uid
     var userEmail: String? = firebaseAuth.currentUser?.email
@@ -61,7 +61,6 @@ class FoodDataSource(
         if (basketFoodList.size > 1) {
             for (i in 0..basketFoodList.size - 2) {
                 if (basketFoodList[i].yemek_adi == basketFoodList[i + 1].yemek_adi) {
-                    Log.d("sildik", basketFoodList[i].yemek_adi.toString())
                     if (basketFoodList[i].yemek_siparis_adet?.toInt()!! >=
                         basketFoodList[i + 1].yemek_siparis_adet?.toInt()!!
                     ) {
@@ -173,15 +172,13 @@ class FoodDataSource(
         foodRetrofitDao.addToBasket(foodName, foodImage, foodPrice, foodNumber, userEmail)
     }
 
-
     suspend fun deleteToBasket(foodBasketId: Int?): Answer =
         foodRetrofitDao.deleteToBasket(foodBasketId, userEmail)
 
-
     suspend fun newProduct(product: Food): Food {
-        basketFoodList = getBasket()
+        lastFoodList = getLastAllFood()
         var newProduct = product
-        for (food in basketFoodList) {
+        for (food in lastFoodList) {
             if (product.yemek_adi == food.yemek_adi) {
                 newProduct = food
             }
@@ -194,7 +191,6 @@ class FoodDataSource(
     }
 
     suspend fun saveFavoritesFood(food: Food): Answer {
-        Log.e("2cevap geldi", food.toString())
         foodRoomDao.saveFavoritesFood(food)
         return Answer(1, "true")
     }
@@ -215,8 +211,20 @@ class FoodDataSource(
     }
 
     //Firebse
+    fun login(email: String, password: String): MutableLiveData<Answer> {
+        answerLogin.value = Answer(null, null)
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                answerLogin.value = Answer(1,"")
+            }
+        }.addOnFailureListener {
+            answerLogin.value = Answer(0,it.message)
+        }
+        return answerLogin
+    }
+
     fun register(email: String, password: String): MutableLiveData<Answer> {
-        answer.value = Answer(null, null)
+        answerRegister.value = Answer(null, null)
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -224,13 +232,13 @@ class FoodDataSource(
                     val uid = firebaseUser.uid
                     val user = User(uid, email, 0, "none")
                     collectionReference.document(uid).set(user).addOnSuccessListener {
-                        answer.value = Answer(1, "")
+                        answerRegister.value = Answer(1, "")
                     }
                 }
             }.addOnFailureListener {
-                answer.value = Answer(0, it.toString())
+                answerRegister.value = Answer(0, it.message)
             }
-        return answer
+        return answerRegister
     }
 
     fun getLiveUser(): MutableLiveData<User> {

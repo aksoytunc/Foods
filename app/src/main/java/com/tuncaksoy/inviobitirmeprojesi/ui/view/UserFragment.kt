@@ -65,12 +65,9 @@ class UserFragment : Fragment(), UserClickListener {
 
     fun modeListener() {
         binding.displayMode.setOnCheckedChangeListener { _, b ->
-            viewModel.loadModePreferences(binding.languageMode.isChecked, b)
+            viewModel.loadModePreferences(false, b)
             if (b) AppCompatDelegate.setDefaultNightMode (AppCompatDelegate.MODE_NIGHT_YES)
             else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
-        binding.languageMode.setOnCheckedChangeListener { _, b ->
-            viewModel.loadModePreferences(b, binding.displayMode.isChecked)
         }
     }
 
@@ -170,6 +167,4 @@ class UserFragment : Fragment(), UserClickListener {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
-
-
 }

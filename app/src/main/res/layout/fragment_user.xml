@@ -96,7 +96,7 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 tools:text="aksoytunc@hotmail.com" />
 
-                            <ImageView
+                            <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/imageViewUser"
                                 android:layout_width="140dp"
                                 android:layout_height="140dp"
@@ -181,20 +181,6 @@
                                 app:layout_constraintStart_toStartOf="parent" />
 
                             <Switch
-                                android:id="@+id/languageMode"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="15dp"
-                                android:layout_marginTop="10dp"
-                                android:checked="@{displayData.languageMode ? true : false}"
-                                android:layout_marginBottom="10dp"
-                                android:text="@string/tr_eng"
-                                android:textSize="12sp"
-                                app:layout_constraintBottom_toTopOf="@+id/textView35"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <Switch
                                 android:id="@+id/displayMode"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -234,7 +220,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:text="User"
+                        android:text="@string/profile"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
