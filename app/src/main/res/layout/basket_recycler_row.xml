@@ -10,6 +10,10 @@
             type="com.tuncaksoy.inviobitirmeprojesi.listener.BasketAdapterClickListener" />
 
         <variable
+            name="total"
+            type="Integer" />
+
+        <variable
             name="food"
             type="com.tuncaksoy.inviobitirmeprojesi.data.model.Food" />
     </data>
@@ -137,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="@string/total"
+                    android:text="@{@string/totalText(total.toString())}"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/textView66"

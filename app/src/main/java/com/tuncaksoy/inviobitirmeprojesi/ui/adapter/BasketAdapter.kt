@@ -1,5 +1,6 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,10 +44,8 @@ class BasketAdapter(
         holder.binding.listener = this
         val item = getItem(position)
         holder.binding.food = item
-        holder.binding.textViewTotal.text = "Total: ${
-            ((item.yemek_fiyat?.toInt() ?: 0) * (item.yemek_siparis_adet?.toInt()
-                ?: 0)).toString()
-        } ₺"
+        holder.binding.total = ((item.yemek_fiyat?.toInt() ?: 0) *
+                (item.yemek_siparis_adet?.toInt() ?: 0))
         holder.binding.cardViewBasket.startAnimation(
             AnimationUtils.loadAnimation(
                 holder.itemView.context,
