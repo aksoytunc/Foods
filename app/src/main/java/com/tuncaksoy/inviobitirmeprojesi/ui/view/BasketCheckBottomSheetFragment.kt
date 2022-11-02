@@ -26,8 +26,7 @@ class BasketCheckBottomSheetFragment(
     var fView: View,
     var total: Int,
     var number: Int,
-    var viewModel: ShoppingViewModel,
-    var basketList: List<Food>
+    var viewModel: ShoppingViewModel
 ) :
     BottomSheetDialogFragment(),
     BasketCheckClickListener {
@@ -80,7 +79,7 @@ class BasketCheckBottomSheetFragment(
 
         if (!binding.switchCW.isChecked) {
             if (cardNumber?.length == 16) {
-                if (binding.editTextAdress.text.toString() != "") {
+                if (binding.editTextAdress.text.toString().isNotEmpty()) {
                     val order = Order(
                         0,
                         orderNo,
@@ -97,15 +96,17 @@ class BasketCheckBottomSheetFragment(
                             order
                         )
                     Navigation.findNavController(fView).navigate(action)
-                    for (basketFood in basketList) {
-                        viewModel.deleteToBasket(basketFood.sepet_yemek_id)
+                    viewModel.basketFoodList.value?.let {
+                        for (basketFood in it) {
+                            viewModel.deleteToBasket(basketFood.sepet_yemek_id)
+                        }
                     }
                     viewModel.saveOrder(order)
                     dismiss()
                 } else makeToast(requireContext(), getString(R.string.noAddress))
             } else makeToast(requireContext(), getString(R.string.wrongCard))
         } else {
-            if (binding.editTextAdress.text.toString() != "") {
+            if (binding.editTextAdress.text.toString().isNotEmpty()) {
                 if (wallet >= total) {
                     val order = Order(
                         0,
@@ -123,8 +124,10 @@ class BasketCheckBottomSheetFragment(
                             order
                         )
                     Navigation.findNavController(fView).navigate(action)
-                    for (basketFood in basketList) {
-                        viewModel.deleteToBasket(basketFood.sepet_yemek_id)
+                    viewModel.basketFoodList.value?.let {
+                        for (basketFood in it) {
+                            viewModel.deleteToBasket(basketFood.sepet_yemek_id)
+                        }
                     }
                     viewModel.saveOrder(order)
                     viewModel.updateBalance(wallet, total)

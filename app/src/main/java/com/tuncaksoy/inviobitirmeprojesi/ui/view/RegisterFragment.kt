@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.tuncaksoy.inviobitirmeprojesi.R
@@ -38,7 +37,7 @@ class RegisterFragment : Fragment(), RegisterClickListener {
         binding.listener = this
     }
 
-    fun observeLiveData() {
+    private fun observeLiveData() {
         viewModel.answer.observe(viewLifecycleOwner) { answer ->
             answer.success?.let {
                 if (it == 1) {
@@ -54,16 +53,16 @@ class RegisterFragment : Fragment(), RegisterClickListener {
     }
 
     override fun btnRegisterClick(email: String?, password: String?, passwordAgain: String?) {
-        if (email != "" && password != "" && passwordAgain != ""){
+        if (email != "" && password != "" && passwordAgain != "") {
             email?.let { nEmail ->
-                password?.let { nPassword->
-                    if (password == passwordAgain){
-                        viewModel.register(nEmail,nPassword)
+                password?.let { nPassword ->
+                    if (password == passwordAgain) {
+                        viewModel.register(nEmail, nPassword)
                         binding.progressBar.visibility = View.VISIBLE
                         observeLiveData()
-                    }else makeToast(requireContext(),getString(R.string.wrongPassword))
+                    } else makeToast(requireContext(), getString(R.string.wrongPassword))
                 }
             }
-        }else makeToast(requireContext(),getString(R.string.sectionsBlank))
+        } else makeToast(requireContext(), getString(R.string.sectionsBlank))
     }
 }

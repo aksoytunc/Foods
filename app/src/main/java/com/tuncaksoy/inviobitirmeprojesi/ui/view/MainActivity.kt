@@ -20,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var viewMoldel: MainActivityViewModel
     private lateinit var binding: ActivityMainBinding
-    var time = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         timer.start()
     }
 
-    fun controlDisplayData() {
+    private fun controlDisplayData() {
         if (viewMoldel.getModePreferences().displayMode) AppCompatDelegate.setDefaultNightMode(
             AppCompatDelegate.MODE_NIGHT_YES
         )

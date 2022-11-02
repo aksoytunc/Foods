@@ -38,7 +38,7 @@ class LoginFragment : Fragment(), LoginClickListener {
         binding.listener = this
     }
 
-    fun observeLiveData() {
+    private fun observeLiveData() {
         viewModel.answer.observe(viewLifecycleOwner) { answer ->
             answer.success?.let {
                 if (it == 1) {
@@ -55,7 +55,7 @@ class LoginFragment : Fragment(), LoginClickListener {
     override fun btnLoginClick(view: View, email: String?, password: String?) {
         email?.let { nEmail ->
             password?.let { nPassword ->
-                if (nEmail != "" && nPassword != "") {
+                if (nEmail.isNotEmpty() && nPassword.isNotEmpty()) {
                     binding.progressBar.visibility = View.VISIBLE
                     viewModel.login(nEmail, nPassword)
                     observeLiveData()

@@ -1,6 +1,7 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +50,7 @@ class HomePageFragment : Fragment(), SearchView.OnQueryTextListener {
         observeLiveData()
     }
 
-    fun observeLiveData() {
+    private fun observeLiveData() {
         viewModel.networkConnection.observe(viewLifecycleOwner) { isConnected ->
             if (isConnected) {
                 binding.searchView.setOnQueryTextListener(this@HomePageFragment)
@@ -58,25 +59,25 @@ class HomePageFragment : Fragment(), SearchView.OnQueryTextListener {
                 filterList()
                 filter()
                 sort()
+                viewModel.lastFoodList.observe(viewLifecycleOwner) {
+                    adapter.submitList(it)
+                    binding.progress.visibility = View.GONE
+                }
+                viewModel.answer.observe(viewLifecycleOwner) {
+                    viewModel.filter(
+                        binding.filterSpinner.selectedItemPosition,
+                        null,
+                        binding.sortSpinner.selectedItemPosition
+                    )
+                }
             } else {
                 binding.progress.visibility = View.VISIBLE
                 makeToast(requireContext(), getString(R.string.controlInternet))
             }
         }
-        viewModel.lastFoodList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            binding.progress.visibility = View.GONE
-        }
-        viewModel.answer.observe(viewLifecycleOwner) {
-            viewModel.filter(
-                binding.filterSpinner.selectedItemPosition,
-                null,
-                binding.sortSpinner.selectedItemPosition
-            )
-        }
     }
 
-    fun sortlist() {
+    private fun sortlist() {
         val sortList = ArrayList<String>()
         sortList.add(getString(R.string.az))
         sortList.add(getString(R.string.za))
@@ -92,7 +93,7 @@ class HomePageFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.sortSpinner.adapter = adapter
     }
 
-    fun filterList() {
+    private fun filterList() {
         val filterList = ArrayList<String>()
         filterList.add(getString(R.string.all))
         filterList.add(getString(R.string.food))
@@ -107,7 +108,7 @@ class HomePageFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.filterSpinner.adapter = adapter
     }
 
-    fun filter() {
+    private fun filter() {
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 viewModel.filter(
@@ -121,7 +122,7 @@ class HomePageFragment : Fragment(), SearchView.OnQueryTextListener {
         }
     }
 
-    fun sort() {
+    private fun sort() {
         binding.sortSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 viewModel.filter(

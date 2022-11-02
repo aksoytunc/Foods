@@ -92,7 +92,7 @@ class UserFragment : Fragment(), UserClickListener {
     override fun loadBalanceClick(balance: String?, loadBalance: String?) {
         balance?.let { nBalance ->
             loadBalance?.let { nLoadBalance ->
-                if (nBalance != "" && nLoadBalance != "") {
+                if (nBalance.isNotEmpty() && nLoadBalance.isNotEmpty()) {
                     viewModel.updateBalance(nBalance.toInt(), nLoadBalance.toInt())
                 }
             }
@@ -132,10 +132,10 @@ class UserFragment : Fragment(), UserClickListener {
         grantResults: IntArray
     ) {
         if (requestCode == 1) {
-            if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                val storageInten =
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                val storageIntent =
                     Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                startActivityForResult(storageInten, 2)
+                startActivityForResult(storageIntent, 2)
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

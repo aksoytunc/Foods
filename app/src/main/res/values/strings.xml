@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">FOODS</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="moneyText">%1s ₺</string>
+    <string name="check">check</string>
     <string name="foodUrl">http://kasimadalan.pe.hu/yemekler/resimler/%1s</string>
-    <string name="plusText">+%1s</string>
     <string name="addBtnText">Add to basket</string>
     <string name="deleteBtnText">Delete</string>
     <string name="changeBtnText">Change basket</string>
@@ -52,7 +51,6 @@
     <string name="registerS">Register</string>
     <string name="password_again">Password again</string>
     <string name="basket_is_emty">Basket is Emty :(</string>
-    <string name="tr_eng">TR / ENG</string>
     <string name="white_dark">WHITE / DARK</string>
     <string name="load_image">Load Image</string>
     <string name="enter_amount">Enter Amount</string>

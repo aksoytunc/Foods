@@ -8,7 +8,6 @@ class RetrofitClient {
     companion object {
         fun getClient(baseUrl: String): Retrofit =
             Retrofit.Builder().baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+                .addConverterFactory(GsonConverterFactory.create()).build()
     }
 }

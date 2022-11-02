@@ -42,7 +42,7 @@ class OrderHistoryFragment : Fragment() {
         observeLiveData()
     }
 
-    fun observeLiveData() {
+    private fun observeLiveData() {
         viewModel.orderList.observe(viewLifecycleOwner) {
             adapter.submitList(it.reversed())
         }

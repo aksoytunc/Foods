@@ -23,7 +23,6 @@ class ShoppingFragment : Fragment(), ShoppingClickListener {
     private lateinit var viewModel: ShoppingViewModel
     private lateinit var adapter: BasketAdapter
     private lateinit var bottomSheetFragment: BasketCheckBottomSheetFragment
-    var basketList = listOf<Food>()
     var total = 0
 
     override fun onResume() {
@@ -55,37 +54,38 @@ class ShoppingFragment : Fragment(), ShoppingClickListener {
         observeLiveData()
     }
 
-    fun observeLiveData() {
+    private fun observeLiveData() {
         viewModel.networkConnection.observe(viewLifecycleOwner) { isConnected ->
-            if (isConnected) viewModel.getBasket()
+            if (isConnected){
+                viewModel.getBasket()
+                viewModel.basketFoodList.observe(viewLifecycleOwner) {
+                    adapter.submitList(it)
+                    total = 0
+                    for (food in it) {
+                        food.yemek_fiyat?.let { price ->
+                            food.yemek_siparis_adet?.let { number ->
+                                total += price * number.toInt()
+                            }
+                        }
+                    }
+                    binding.total = total
+                    binding.allfoodNumber = it.size
+                    binding.progress.visibility = View.GONE
+                }
+                viewModel.answer.observe(viewLifecycleOwner) {
+                    viewModel.getBasket()
+                }
+            }
             else {
                 binding.progress.visibility = View.VISIBLE
                 makeToast(requireContext(), getString(R.string.controlInternet))
             }
         }
-        viewModel.basketFoodList.observe(viewLifecycleOwner) {
-            basketList = it
-            adapter.submitList(it)
-            total = 0
-            for (food in it) {
-                food.yemek_fiyat?.let { price ->
-                    food.yemek_siparis_adet?.let { number ->
-                        total += price * number.toInt()
-                    }
-                }
-            }
-            binding.total = total
-            binding.allfoodNumber = it.size
-            binding.progress.visibility = View.GONE
-        }
-        viewModel.answer.observe(viewLifecycleOwner) {
-            viewModel.getBasket()
-        }
     }
 
     override fun basketConfirmClick(total: Int, number: Int) {
         bottomSheetFragment =
-            BasketCheckBottomSheetFragment(binding.textView10, total, number, viewModel, basketList)
-        bottomSheetFragment.show(parentFragmentManager, "check")
+            BasketCheckBottomSheetFragment(binding.textView10, total, number, viewModel)
+        bottomSheetFragment.show(parentFragmentManager, getString(R.string.check))
     }
 }

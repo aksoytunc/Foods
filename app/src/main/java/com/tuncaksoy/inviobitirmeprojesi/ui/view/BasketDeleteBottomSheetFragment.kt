@@ -16,10 +16,6 @@ class BasketDeleteBottomSheetFragment(var viewModel: ShoppingViewModel,var food:
     BottomSheetDialogFragment(), BasketDeleteBottomSheetClickListener {
     private lateinit var binding: FragmentBasketDeleteBottomSheetBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,12 +27,12 @@ class BasketDeleteBottomSheetFragment(var viewModel: ShoppingViewModel,var food:
             container,
             false
         )
-        binding.foodName = food.yemek_adi
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.foodName = food.yemek_adi
         binding.listener = this
     }
 

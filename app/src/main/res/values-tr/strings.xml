@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">FOODS</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="moneyText">%1s ₺</string>
+    <string name="check">check</string>
     <string name="foodUrl">http://kasimadalan.pe.hu/yemekler/resimler/%1s</string>
-    <string name="plusText">+%1s</string>
     <string name="addBtnText">Sepete ekle</string>
     <string name="deleteBtnText">Sil</string>
     <string name="changeBtnText">Sepeti değiştir</string>
@@ -52,7 +51,6 @@
     <string name="registerS">Kayıt ol</string>
     <string name="password_again">Şifre tekrar</string>
     <string name="basket_is_emty">Sepet boş :(</string>
-    <string name="tr_eng">TR / ENG</string>
     <string name="white_dark">GÜNDÜZ / GECE</string>
     <string name="load_image">Fotoğraf yükle</string>
     <string name="enter_amount">Miktar girin</string>
