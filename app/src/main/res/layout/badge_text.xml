@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/notification_badge"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bgbadgecount"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/white"
+            android:textSize="13dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@+id/notification_badge2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/notification_badge2"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:background="@drawable/bgbadgecount"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/white"
+            android:textSize="11dp"
+            app:layout_constraintEnd_toStartOf="@+id/notification_badge3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/notification_badge"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/notification_badge3"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bgbadgecount"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/white"
+            android:textSize="13dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@+id/notification_badge4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/notification_badge2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/notification_badge4"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bgbadgecount"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/white"
+            android:textSize="13dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toStartOf="@+id/notification_badge5"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/notification_badge3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/notification_badge5"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bgbadgecount"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/white"
+            android:textSize="13dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/notification_badge4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

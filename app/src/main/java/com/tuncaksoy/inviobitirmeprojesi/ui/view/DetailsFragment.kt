@@ -1,12 +1,10 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.view
 
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.tuncaksoy.inviobitirmeprojesi.R
@@ -14,6 +12,7 @@ import com.tuncaksoy.inviobitirmeprojesi.data.model.Food
 import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentDetailsBinding
 import com.tuncaksoy.inviobitirmeprojesi.listener.DetailsClickListener
 import com.tuncaksoy.inviobitirmeprojesi.ui.viewmodel.DetalsViewModel
+import com.tuncaksoy.inviobitirmeprojesi.utils.makeAlert
 import com.tuncaksoy.inviobitirmeprojesi.utils.makeToast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,6 +38,7 @@ class DetailsFragment : Fragment(), DetailsClickListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_details, container, false)
         arguments?.let {
             product = DetailsFragmentArgs.fromBundle(it).product
+            binding.food = product
             viewModel.networkConnection.observe(viewLifecycleOwner) { isConnected ->
                 if (isConnected) {
                     viewModel.newProduct(product)
@@ -53,7 +53,7 @@ class DetailsFragment : Fragment(), DetailsClickListener {
     fun observeLiveData() {
         viewModel.newProduct.observe(viewLifecycleOwner) {
             newProduct = it
-            binding.food = newProduct
+            binding.food = it
         }
 
         viewModel.deleteAnswer.observe(viewLifecycleOwner) {
@@ -82,6 +82,8 @@ class DetailsFragment : Fragment(), DetailsClickListener {
                     newFoodNumber = it.toInt()
                 }
                 viewModel.deleteToBasket(newProduct, newFoodNumber)
+                (activity as MainActivity).viewModel.getBasket()
+                makeAlert(requireContext(),"${newProduct.yemek_adi}","$foodNumber ${getString(R.string.addBasket)}")
             } else {
                 makeToast(requireContext(), getString(R.string.controlInternet))
             }

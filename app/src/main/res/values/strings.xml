@@ -62,4 +62,5 @@
     <string name="profile">Profile</string>
     <string name="sectionsBlank">Sections cannot be left blank!</string>
     <string name="wrongPassword">Passwords do not match!</string>
+    <string name="addBasket">pieces added to the basket.</string>
 </resources>

@@ -1,7 +1,6 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -60,6 +59,7 @@ class HomePageFragment : Fragment(), SearchView.OnQueryTextListener {
                 filter()
                 sort()
                 viewModel.lastFoodList.observe(viewLifecycleOwner) {
+                    (activity as MainActivity).viewModel.getBasket()
                     adapter.submitList(it)
                     binding.progress.visibility = View.GONE
                 }

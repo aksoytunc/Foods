@@ -1,7 +1,6 @@
 package com.tuncaksoy.inviobitirmeprojesi.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.tuncaksoy.inviobitirmeprojesi.R
-import com.tuncaksoy.inviobitirmeprojesi.data.model.Food
 import com.tuncaksoy.inviobitirmeprojesi.databinding.FragmentShoppingBinding
 import com.tuncaksoy.inviobitirmeprojesi.listener.ShoppingClickListener
 import com.tuncaksoy.inviobitirmeprojesi.ui.adapter.BasketAdapter
@@ -56,9 +54,10 @@ class ShoppingFragment : Fragment(), ShoppingClickListener {
 
     private fun observeLiveData() {
         viewModel.networkConnection.observe(viewLifecycleOwner) { isConnected ->
-            if (isConnected){
+            if (isConnected) {
                 viewModel.getBasket()
                 viewModel.basketFoodList.observe(viewLifecycleOwner) {
+                    (activity as MainActivity).viewModel.getBasket()
                     adapter.submitList(it)
                     total = 0
                     for (food in it) {
@@ -75,8 +74,7 @@ class ShoppingFragment : Fragment(), ShoppingClickListener {
                 viewModel.answer.observe(viewLifecycleOwner) {
                     viewModel.getBasket()
                 }
-            }
-            else {
+            } else {
                 binding.progress.visibility = View.VISIBLE
                 makeToast(requireContext(), getString(R.string.controlInternet))
             }

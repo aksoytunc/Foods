@@ -62,4 +62,5 @@
     <string name="profile">Profil</string>
     <string name="sectionsBlank">Bölümler boş bırakılamaz!</string>
     <string name="wrongPassword">Şifreler eşleşmiyor!</string>
+    <string name="addBasket">adet sepete eklendi.</string>
 </resources>
