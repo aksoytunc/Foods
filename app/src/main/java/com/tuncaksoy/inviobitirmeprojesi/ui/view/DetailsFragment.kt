@@ -93,7 +93,6 @@ class DetailsFragment : Fragment(), DetailsClickListener {
         else viewModel.saveFavoritesFood(food)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun plusClick() {
         foodNumber = binding.foodNumberText.text.toString().toInt()
         foodNumber++

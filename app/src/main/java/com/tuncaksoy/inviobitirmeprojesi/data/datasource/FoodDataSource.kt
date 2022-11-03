@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
-import com.tuncaksoy.inviobitirmeprojesi.data.Preferences.AppSharedPreferences
+import com.tuncaksoy.inviobitirmeprojesi.data.preference.AppSharedPreferences
 import com.tuncaksoy.inviobitirmeprojesi.data.model.*
 import com.tuncaksoy.inviobitirmeprojesi.retrofit.FoodRetrofitDao
 import com.tuncaksoy.inviobitirmeprojesi.room.FoodRoomDao

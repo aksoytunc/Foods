@@ -1,4 +1,4 @@
-package com.tuncaksoy.inviobitirmeprojesi.data.Preferences
+package com.tuncaksoy.inviobitirmeprojesi.data.preference
 
 import android.content.Context
 import com.tuncaksoy.inviobitirmeprojesi.data.model.DisplayData
