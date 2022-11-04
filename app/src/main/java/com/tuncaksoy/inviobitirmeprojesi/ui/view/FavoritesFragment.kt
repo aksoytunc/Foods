@@ -41,11 +41,11 @@ class FavoritesFragment : Fragment() {
         observeLiveData()
     }
 
-    fun observeLiveData(){
+    fun observeLiveData() {
         viewModel.favoritesList.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-        viewModel.answer.observe(viewLifecycleOwner){
+        viewModel.answer.observe(viewLifecycleOwner) {
             viewModel.getAllFavorites()
         }
     }
