@@ -29,5 +29,4 @@ interface FoodRetrofitDao {
         @Field("sepet_yemek_id") foodNumber: Int?,
         @Field("kullanici_adi") userEmail: String?
     ): Answer
-
 }

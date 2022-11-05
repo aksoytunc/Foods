@@ -4,5 +4,4 @@ data class DisplayData(
     var languageMode: Boolean,
     var displayMode: Boolean
 ) {
-
 }

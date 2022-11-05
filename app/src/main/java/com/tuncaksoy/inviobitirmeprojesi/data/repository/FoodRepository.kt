@@ -47,5 +47,4 @@ class FoodRepository(var foodDataSource: FoodDataSource) {
         foodDataSource.loadModePreferences(languageMode, displayMode)
 
     fun getModePreferences() = foodDataSource.getModePreferences()
-
 }

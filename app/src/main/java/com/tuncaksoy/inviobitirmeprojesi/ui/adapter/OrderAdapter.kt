@@ -46,5 +46,4 @@ class OrderAdapter(var viewModel: OrderHistoryViewModel) :
             return areItemsTheSame(oldItem, newItem)
         }
     }
-
 }

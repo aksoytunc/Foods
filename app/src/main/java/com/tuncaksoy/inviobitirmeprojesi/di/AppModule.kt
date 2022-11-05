@@ -84,5 +84,4 @@ class AppModule {
     @Singleton
     fun provideNetworkConnection(@ApplicationContext context: Context): NetworkConnection =
         NetworkConnection((context))
-
 }

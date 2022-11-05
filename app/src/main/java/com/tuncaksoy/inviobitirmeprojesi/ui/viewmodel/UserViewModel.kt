@@ -37,5 +37,4 @@ class UserViewModel @Inject constructor(
     }
 
     fun getModePrefences(): DisplayData = foodRepository.getModePreferences()
-
 }
