@@ -6,7 +6,7 @@
     <string name="foodUrl">http://kasimadalan.pe.hu/yemekler/resimler/%1s</string>
     <string name="addBtnText">Add to basket</string>
     <string name="deleteBtnText">Delete</string>
-    <string name="changeBtnText">Change basket</string>
+    <string name="changeBtnText">Update basket</string>
     <string name="totalText">Total: %1s ₺</string>
     <string name="basketProductsText">- %1s Product</string>
     <string name="basketCheckText">%1s Product</string>

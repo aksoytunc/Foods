@@ -6,7 +6,7 @@
     <string name="foodUrl">http://kasimadalan.pe.hu/yemekler/resimler/%1s</string>
     <string name="addBtnText">Sepete ekle</string>
     <string name="deleteBtnText">Sil</string>
-    <string name="changeBtnText">Sepeti değiştir</string>
+    <string name="changeBtnText">Sepeti güncelle</string>
     <string name="totalText">Toplam: %1s ₺</string>
     <string name="basketProductsText">- %1s Ürün</string>
     <string name="basketCheckText">%1s Ürün</string>
