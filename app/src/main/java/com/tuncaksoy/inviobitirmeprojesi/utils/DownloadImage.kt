@@ -1,4 +1,4 @@
-package com.tuncaksoy.inviobitirmeprojesi.glide
+package com.tuncaksoy.inviobitirmeprojesi.utils
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
@@ -13,6 +13,6 @@ fun ImageView.downloadImage(url: String?) {
 }
 
 @BindingAdapter("android:downloadImage")
-fun dowloadImage(view: ImageView, url: String?) {
+fun downloadImageFromUrl(view: ImageView, url: String?) {
         view.downloadImage(url)
 }
