@@ -9,7 +9,6 @@ fun ImageView.downloadImage(url: String?) {
     if (url == "none"){
        this.setImageResource(R.drawable.user_image)
     }else Glide.with(context).load(url).into(this)
-
 }
 
 @BindingAdapter("android:downloadImage")

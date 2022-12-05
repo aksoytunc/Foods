@@ -24,6 +24,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+
     @Provides
     @Singleton
     fun provideFoodRepository(foodDataSource: FoodDataSource): FoodRepository {
@@ -72,7 +73,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providefirebaseFirestore(): CollectionReference =
+    fun provideFirebaseFirestore(): CollectionReference =
         FirebaseFirestore.getInstance().collection("User")
 
     @Provides
